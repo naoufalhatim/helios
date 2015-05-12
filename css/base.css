@@ -1,0 +1,88 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  background-color: black;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 46px;
+  padding: 0;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 200px;
+  line-height: .7;
+  margin: 20px 0;
+  text-align: center;
+}
+
+h2 {
+  font-size: 60px;
+}
+
+.hours canvas {
+  margin-top: 10px;
+  width: 100%;
+}
+
+body table.weather-graph td {
+  border-top: none;
+}
+
+.hours {
+  list-style-type: none;
+  margin: 0 -15px 20px;
+  padding: 0;
+}
+
+.hours li {
+  display: inline-block;
+  text-align: center;
+}
+
+.hours li h2 {
+  line-height: 1;
+  margin: 0;
+}
+
+.hours li h3 {
+  margin-top: 10px;
+}
+
+.hours li .col-xs-1 {
+  padding: 0 5px;
+}
+
+h4 {
+  margin-bottom: 0;
+}
+
+h5 {
+  margin-top: 3px;
+}
+
+.bar-container {
+  position: relative;
+  vertical-align: bottom;
+  width: 100%;
+}
+
+.bar {
+  background-color: white;
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.weather-graph td {
+  text-align: center;
+}
+
+.bottom {
+  bottom: 0;
+  left: 15px;
+  position: absolute;
+  right: 15px;
+}
