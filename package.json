@@ -8,6 +8,7 @@
     "bower": "^1.4.1",
     "browserify": "^10.2.0",
     "grunt-browserify": "^3.8.0",
+    "jquery": "^2.1.3",
     "moment": "^2.10.3",
     "react": "^0.13.3",
     "react-skycons": "^0.1.1",
@@ -16,10 +17,12 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-watch": "^0.6.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "grunt",
+    "build": "grunt build"
   },
   "repository": {
     "type": "git",
