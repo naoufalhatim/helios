@@ -6,6 +6,7 @@ import Clock from './clock';
 import CurrentDate from './current_date';
 import Temperature from './temperature';
 import ForecastHours from './forecast_hours';
+import {colorForTemp} from '../utils/helpers';
 
 var Weather = React.createClass({
   componentDidMount: function() {

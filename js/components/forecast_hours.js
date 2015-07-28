@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {colorForTemp} from '../utils/helpers.js';
 import ForecastHour from './forecast_hour';
 
 var ForecastHours = React.createClass({

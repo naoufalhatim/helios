@@ -5,6 +5,7 @@ import Skycons from 'react-skycons';
 
 import Bar from './bar';
 import Precipitation from './precipitation';
+import {colorForTemp} from '../utils/helpers';
 
 var ForecastHour = React.createClass({
   render: function() {
