@@ -8,7 +8,7 @@ module.exports = function(grunt) {
       dev: {
         options: {
           debug: true,
-          transform: ['reactify']
+          transform: ['babelify']
         },
         files: {
           'public/js/bundle.js': 'js/main.js'
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       build: {
         options: {
           debug: false,
-          transform: ['reactify']
+          transform: ['babelify']
         },
         files: {
           'public/js/bundle.js': 'js/main.js'
