@@ -1,5 +1,5 @@
-var React = require('react');
-var Skycons = require('react-skycons');
+import React from 'react';
+import Skycons from 'react-skycons';
 
 var Precipitation = React.createClass({
   propTypes: {

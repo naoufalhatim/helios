@@ -7,5 +7,6 @@ colorForTemp = function(tempInF) {
 
   return 'hsl(' + [hue, '90%', '50%'] + ')';
 }
+import React from 'react';
 
 React.render(<Weather />, document.getElementById('weather'));

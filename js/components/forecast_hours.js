@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var ForecastHour = require('./forecast_hour');
+import ForecastHour from './forecast_hour';
 
 var ForecastHours = React.createClass({
   render: function() {

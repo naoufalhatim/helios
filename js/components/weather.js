@@ -1,11 +1,11 @@
-var React = require('react');
+import React from 'react';
 
-var config = require('../../config.json');
+import config from '../../config.json';
 
-var Clock = require('./clock');
-var CurrentDate = require('./current_date');
-var Temperature = require('./temperature');
-var ForecastHours = require('./forecast_hours');
+import Clock from './clock';
+import CurrentDate from './current_date';
+import Temperature from './temperature';
+import ForecastHours from './forecast_hours';
 
 var Weather = React.createClass({
   componentDidMount: function() {

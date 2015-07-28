@@ -1,10 +1,10 @@
-var React = require('react');
+import React from 'react';
 
-var Moment = require('moment');
-var Skycons = require('react-skycons');
+import Moment from 'moment';
+import Skycons from 'react-skycons';
 
-var Bar = require('./bar');
-var Precipitation = require('./precipitation');
+import Bar from './bar';
+import Precipitation from './precipitation';
 
 var ForecastHour = React.createClass({
   render: function() {
