@@ -1,5 +1,5 @@
-var React = require('react');
-var Moment = require('moment');
+import React from 'react';
+import Moment from 'moment';
 
 var CurrentDate = React.createClass({
   getInitialState: function() {
