@@ -1,7 +1,5 @@
 import React from 'react';
 
-import config from '../../config.json';
-
 import Clock from './clock';
 import CurrentDate from './current_date';
 import Temperature from './temperature';
@@ -20,13 +18,16 @@ var Weather = React.createClass({
       return (
         <div style={{ color: colorForTemp(this.state.data.currently.apparentTemperature) }}>
           <div className="row">
-            <Clock className="col-sm-4"/>
+            <CurrentDate className="col-sm-4 text-left" />
             <h1 className="col-sm-4">
               <Temperature value={this.state.data.currently.apparentTemperature} />
             </h1>
-            <CurrentDate className="col-sm-4 text-right" />
+            <Clock className="col-sm-4 text-right"/>
           </div>
-          <ForecastHours hours={ this.state.data.hourly.data } className="hours clearfix" />
+          <ForecastHours
+            hours={ this.state.data.hourly.data }
+            barHeight={ this.props.config.BAR_HEIGHT }
+            className="hours clearfix" />
           <p className="text-center">{this.state.data.minutely.summary}</p>
           <p className="text-center">{this.state.data.hourly.summary}</p>
         </div>
@@ -40,7 +41,7 @@ var Weather = React.createClass({
 
   _loadWeatherFromServer: function() {
     $.ajax({
-      url: config.API_URL,
+      url: this.props.config.API_URL,
       dataType: 'jsonp',
       cache: false,
       success: function(data) {

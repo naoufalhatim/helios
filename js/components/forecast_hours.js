@@ -25,11 +25,11 @@ var ForecastHours = React.createClass({
           className="col-xs-1"
           hour={ hour }
           color={ colorForTemp(hour.apparentTemperature) }
-          height={ 110 }
-          barHeight={ (((hour.apparentTemperature - lowTemp) / spread) * 100) + 10 }
+          height={ this.props.barHeight + 10 }
+          barHeight={ (((hour.apparentTemperature - lowTemp) / spread) * this.props.barHeight) + 10 }
         />
       );
-    });
+    }, this);
 
     return (
       <ul className={ this.props.className }>{ hours }</ul>
