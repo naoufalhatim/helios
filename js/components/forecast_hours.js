@@ -5,7 +5,7 @@ import ForecastHour from './forecast_hour';
 var ForecastHours = React.createClass({
   render: function() {
     var temps = [];
-    i = 0;
+    var i = 0;
 
     while (i < 24) {
       temps.push(this.props.hours[i].apparentTemperature)
