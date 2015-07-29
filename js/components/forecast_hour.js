@@ -21,7 +21,7 @@ var ForecastHour = React.createClass({
           color={ this.props.color } />
 
         <h3>{ Moment.unix(this.props.hour.time).format("ha") }</h3>
-        <h2>{ Math.round(this.props.hour.apparentTemperature) }</h2>
+        <h2>{ Math.round(this.props.hour.temperature) }</h2>
 
         <Skycons
           key={ this.props.color }

@@ -16,11 +16,11 @@ var Weather = React.createClass({
   render: function() {
     if (this.state) {
       return (
-        <div style={{ color: colorForTemp(this.state.data.currently.apparentTemperature) }}>
+        <div style={{ color: colorForTemp(this.state.data.currently.temperature) }}>
           <div className="row">
             <CurrentDate className="col-sm-4 text-left" />
             <h1 className="col-sm-4">
-              <Temperature value={this.state.data.currently.apparentTemperature} />
+              <Temperature value={this.state.data.currently.temperature} />
             </h1>
             <Clock className="col-sm-4 text-right"/>
           </div>
