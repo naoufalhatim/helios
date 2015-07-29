@@ -8,7 +8,7 @@ var ForecastHours = React.createClass({
     var i = 0;
 
     while (i < 24) {
-      temps.push(this.props.hours[i].apparentTemperature)
+      temps.push(this.props.hours[i].temperature)
       i++;
     }
 
@@ -24,9 +24,9 @@ var ForecastHours = React.createClass({
           key={ hour.time }
           className="col-xs-1"
           hour={ hour }
-          color={ colorForTemp(hour.apparentTemperature) }
+          color={ colorForTemp(hour.temperature) }
           height={ this.props.barHeight + 10 }
-          barHeight={ (((hour.apparentTemperature - lowTemp) / spread) * this.props.barHeight) + 10 }
+          barHeight={ (((hour.temperature - lowTemp) / spread) * this.props.barHeight) + 10 }
         />
       );
     }, this);
