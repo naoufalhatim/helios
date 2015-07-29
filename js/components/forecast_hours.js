@@ -4,13 +4,7 @@ import ForecastHour from './forecast_hour';
 
 var ForecastHours = React.createClass({
   render: function() {
-    var temps = [];
-    var i = 0;
-
-    while (i < 24) {
-      temps.push(this.props.hours[i].temperature)
-      i++;
-    }
+    var temps = this.props.hours.map(function (hour) { return hour.temperature }).slice(0, 24)
 
     var highTemp = temps.sort().slice(-1)[0];
     var lowTemp = temps.sort()[0];
