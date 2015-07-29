@@ -46,15 +46,16 @@ var Weather = React.createClass({
       url: this.props.config.API_URL,
       dataType: 'jsonp',
       cache: false,
+      context: this,
       success: function(data) {
         this.setState({
           data: data,
           updateMessage: "Last updated: " + Moment().format('h:mm:ss A'),
         });
-      }.bind(this),
+      },
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
-      }.bind(this)
+      }
     });
   }
 });
