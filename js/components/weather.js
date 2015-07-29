@@ -19,18 +19,22 @@ var Weather = React.createClass({
       return (
         <div>
           <div className="row">
-            <CurrentDate className="col-sm-4 text-left" />
-            <h1 className="col-sm-4" style={{ color: colorForTemp(this.state.data.currently.temperature) }}>
-              <Temperature value={this.state.data.currently.temperature} />
-            </h1>
-            <Clock className="col-sm-4 text-right"/>
+            <div className="col-xs-6">
+              <h1>
+                <Temperature value={this.state.data.currently.temperature} />
+              </h1>
+            </div>
+
+            <div className="col-xs-6">
+              <p>{this.state.data.minutely.summary}</p>
+              <p>{this.state.data.hourly.summary}</p>
+            </div>
           </div>
           <ForecastHours
             hours={ this.state.data.hourly.data }
             barHeight={ this.props.config.BAR_HEIGHT }
             className="hours clearfix" />
-          <p className="text-center">{this.state.data.minutely.summary}</p>
-          <p className="text-center">{this.state.data.hourly.summary}</p>
+
           <p className="text-center update-message">{this.state.updateMessage}</p>
         </div>
       )
