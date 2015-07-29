@@ -3,7 +3,6 @@ import React from 'react';
 import Moment from 'moment';
 import Skycons from 'react-skycons';
 
-import Bar from './bar';
 import Precipitation from './precipitation';
 import {colorForTemp} from '../utils/helpers';
 
@@ -14,11 +13,6 @@ var ForecastHour = React.createClass({
         key={this.props.hour.time}
         className={ this.props.className }
         style={{ color: this.props.color }}>
-
-        <Bar
-          containerHeight={ this.props.height }
-          barHeight={ this.props.barHeight }
-          color={ this.props.color } />
 
         <h3>{ Moment.unix(this.props.hour.time).format("ha") }</h3>
         <h2>{ Math.round(this.props.hour.temperature) }</h2>
