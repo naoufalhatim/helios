@@ -6,8 +6,8 @@ var ForecastHours = React.createClass({
   render: function() {
     var temps = this.props.hours.map(function (hour) { return hour.temperature }).slice(0, 24).sort(function (a, b) { return a - b })
 
-    var highTemp = temps.sort().slice(-1)[0];
-    var lowTemp = temps.sort()[0];
+    var highTemp = temps.pop();
+    var lowTemp = temps.shift();
     var spread = (highTemp - lowTemp);
 
     var hours = this.props.hours.map(function (hour, index) {
