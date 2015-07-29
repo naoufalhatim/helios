@@ -1,4 +1,5 @@
 import React from 'react';
+import Moment from 'moment';
 
 import Clock from './clock';
 import CurrentDate from './current_date';
@@ -30,6 +31,7 @@ var Weather = React.createClass({
             className="hours clearfix" />
           <p className="text-center">{this.state.data.minutely.summary}</p>
           <p className="text-center">{this.state.data.hourly.summary}</p>
+          <p className="text-center update-message">{this.state.updateMessage}</p>
         </div>
       )
     } else {
@@ -45,7 +47,10 @@ var Weather = React.createClass({
       dataType: 'jsonp',
       cache: false,
       success: function(data) {
-        this.setState({ data: data });
+        this.setState({
+          data: data,
+          updateMessage: "Last updated: " + Moment().format('h:mm:ss A'),
+        });
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());

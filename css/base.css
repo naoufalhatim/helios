@@ -86,3 +86,8 @@ h5 {
   position: absolute;
   right: 15px;
 }
+
+.update-message {
+  color: #aaa;
+  font-size: 18px;
+}
