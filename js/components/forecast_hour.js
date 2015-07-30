@@ -1,10 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import Moment from 'moment';
-import Skycons from 'react-skycons';
+import Moment from "moment";
+import Skycons from "react-skycons";
 
-import Precipitation from './precipitation';
-import {colorForTemp} from '../utils/helpers';
+import Precipitation from "./precipitation";
 
 var ForecastHour = React.createClass({
   render: function() {
@@ -15,8 +14,8 @@ var ForecastHour = React.createClass({
 
         <Skycons
           key={ this.props.color }
-          color='#fff'
-          icon={ this.props.hour.icon.toUpperCase().replace(/-/g, '_')}
+          color="#fff"
+          icon={ this.props.hour.icon.toUpperCase().replace(/-/g, "_")}
           autoplay={ true } />
 
         <h3>{ Moment.unix(this.props.hour.time).format("ha") }</h3>
@@ -26,7 +25,7 @@ var ForecastHour = React.createClass({
           precipType={ this.props.hour.precipType }
           precipProbability={ this.props.hour.precipProbability } />
       </li>
-    )
+    );
   }
 });
 
