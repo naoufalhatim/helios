@@ -2,20 +2,26 @@ import React from 'react';
 import Moment from 'moment';
 
 import Clock from './clock';
+import SlackPing from './slack-ping';
 import CurrentDate from './current_date';
 import Temperature from './temperature';
 import ForecastHours from './forecast_hours';
 import {colorForTemp} from '../utils/helpers';
 
 var Weather = React.createClass({
+  getInitialState: function() {
+    return {
+      pings: []
+    }
+  },
   componentDidMount: function() {
     this._loadWeatherFromServer();
-
+    this._connectToSlackStream();
     setInterval(this._loadWeatherFromServer, 120000);
   },
 
   render: function() {
-    if (this.state) {
+    if (this.state.data) {
       return (
         <div>
           <div className="row">
@@ -36,6 +42,7 @@ var Weather = React.createClass({
             className="hours clearfix" />
 
           <p className="text-center update-message">{this.state.updateMessage}</p>
+          <SlackPing pings={ this.state.pings }></SlackPing>
         </div>
       )
     } else {
@@ -45,6 +52,21 @@ var Weather = React.createClass({
     }
   },
 
+  _connectToSlackStream: function() {
+    var socket = io('http://localhost:9999');
+    var slackColors = ['rgba(49, 163, 142, 1)', 'rgba(237, 180, 49, 1)', 'rgba(227, 21, 99, 1)', 'rgba(136, 212, 226, 1)'];
+    socket.on('message', () => {
+      if (this.state.pings.length > 3) {
+        return
+      }
+
+      this.setState({pings: this.state.pings.concat({
+        color: slackColors[this.state.pings.length % slackColors.length],
+        time: Date.now()
+      })});
+      setTimeout(() => {this.setState({pings: this.state.pings.slice(1)})}, 10000)
+    })
+  },
   _loadWeatherFromServer: function() {
     $.ajax({
       url: this.props.config.API_URL,
