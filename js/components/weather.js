@@ -1,3 +1,4 @@
+import $ from "jquery";
 import React from 'react';
 import Moment from 'moment';
 import io from 'socket.io-client'
