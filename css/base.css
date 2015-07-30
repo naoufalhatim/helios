@@ -102,6 +102,7 @@ slack-ping div {
 
 .message-orbs-enter-active {
   opacity: 1;
+  -webkit-transition: opacity .5s ease-in;
   transition: opacity .5s ease-in;
 }
 
@@ -110,5 +111,6 @@ slack-ping div {
 }
 
 .message-orbs-leave {
+  -webkit-transition: opacity .5s ease-in;
   transition: opacity .5s ease-in;
 }
