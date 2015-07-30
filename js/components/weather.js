@@ -1,5 +1,6 @@
 import React from 'react';
 import Moment from 'moment';
+import io from 'socket.io-client'
 
 import Clock from './clock';
 import SlackPing from './slack-ping';
