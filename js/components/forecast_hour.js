@@ -5,6 +5,7 @@ import Skycons from "react-skycons";
 
 import Temperature from "./temperature";
 import Precipitation from "./precipitation";
+import TemperatureDot from "./temperature_dot";
 
 var ForecastHour = React.createClass({
   render: function() {
@@ -12,6 +13,8 @@ var ForecastHour = React.createClass({
       <li
         key={this.props.hour.time}
         className={ this.props.className }>
+
+        <TemperatureDot temperature={ this.props.hour.temperature } maximumTemperature={ this.props.maximumTemperature } minimumTemperature={ this.props.minimumTemperature } />
 
         <h5>{ Moment.unix(this.props.hour.time).format("hA") }</h5>
         <h6>

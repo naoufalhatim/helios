@@ -76,6 +76,17 @@ body table.weather-graph td {
   display: inline-block;
   width: 12.5%;
   vertical-align: top;
+  position: relative;
+}
+
+.hours li .temp-percent {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: 0px;
+  display: block;
+  border-radius: 5px;
+  margin-top: -10px;
 }
 
 .hours li h2 {
