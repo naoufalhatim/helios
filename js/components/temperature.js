@@ -1,4 +1,5 @@
 import React from "react";
+import {colorForTemp} from "../utils/helpers";
 
 var Temperature = React.createClass({
   propTypes: {
@@ -7,7 +8,9 @@ var Temperature = React.createClass({
 
   render: function() {
     return (
-      <span>{ Math.round(this.props.value) + String.fromCharCode(176) }</span>
+      <span style={{ color: colorForTemp(this.props.value) }}>
+        { Math.round(this.props.value) + String.fromCharCode(176) }
+      </span>
     );
   }
 });
