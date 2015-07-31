@@ -1,0 +1,17 @@
+#!/bin/sh
+
+export DISPLAY=":0"
+
+DEPLOYDIR=/var/www
+
+GIT_WORK_TREE="$DEPLOYDIR" git checkout -f
+
+cd "$DEPLOYDIR"
+
+npm install
+
+grunt build
+
+xdotool key ctrl+F5
+
+echo "All done!"
