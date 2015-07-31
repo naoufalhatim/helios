@@ -10,10 +10,7 @@ var Precipitation = React.createClass({
   render: function() {
     if (Math.round(this.props.precipProbability * 100) > 0) {
       return (
-        <div className={ this.props.className }>
-          <h4>{ Math.round(this.props.precipProbability * 100) } %</h4>
-          <h5>{ this.props.precipType }</h5>
-        </div>
+        <span className={ this.props.className }> { Math.round(this.props.precipProbability * 100) }% { this.props.precipType }</span>
       );
     } else {
       return <span></span>;
