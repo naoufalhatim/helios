@@ -76,7 +76,7 @@ var Weather = React.createClass({
       success: function(data) {
         this.setState({
           data: data,
-          updateMessage: "Last updated: " + moment().format("h:mm:ss A")
+          updateMessage: "As of " + moment().format("h:mm A")
         });
       }
     });
