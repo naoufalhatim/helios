@@ -3,7 +3,9 @@ import moment from "moment";
 import io from "socket.io-client";
 import $ from "jquery";
 
+import CurrentDate from "./current_date";
 import SlackPing from "./slack-ping";
+import DailyTemperatures from "./daily_temperatures";
 import Temperature from "./temperature";
 import ForecastHours from "./forecast_hours";
 
@@ -24,24 +26,53 @@ var Weather = React.createClass({
       return (
         <div>
           <div className="row">
-            <div className="col-xs-6">
-              <h1>
-                <Temperature value={this.state.data.currently.temperature} />
-              </h1>
-            </div>
+            <div className="col-xs-9 col-xs-offset-3">
+              <div className="row header">
+                <CurrentDate className="date col-xs-6" />
 
-            <div className="col-xs-6">
-              <p>{this.state.data.minutely.summary}</p>
-              <p>{this.state.data.hourly.summary}</p>
+                <div className="col-xs-6 text-right">
+                  <SlackPing pings={ this.state.pings }></SlackPing>
+                </div>
+              </div>
+              <div className="row main">
+                <div className="col-xs-4">
+                  <h5>Currently</h5>
+                  <h6 className="update-message">{this.state.updateMessage}</h6>
+
+                  <h1><Temperature value={this.state.data.currently.temperature} /></h1>
+                </div>
+
+                <div className="col-xs-8">
+                  <ForecastHours
+                    hours={ this.state.data.hourly.data }
+                    barHeight={ this.props.config.BAR_HEIGHT }
+                    className="hours clearfix" />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-xs-4">
+                  <h5>Today</h5>
+                  <h6><DailyTemperatures day={ this.state.data.daily.data[0] } /></h6>
+
+                  <p>{this.state.data.minutely.summary}</p>
+                </div>
+
+                <div className="col-xs-4">
+                  <h5>{ moment().add("days", 1).format("dddd") }</h5>
+                  <h6><DailyTemperatures day={ this.state.data.daily.data[1] } /></h6>
+
+                  <p>{this.state.data.daily.data[1].summary}</p>
+                </div>
+
+                <div className="col-xs-4">
+                  <h5>{ moment().add("days", 2).format("dddd") }</h5>
+                  <h6><DailyTemperatures day={ this.state.data.daily.data[2] } /></h6>
+
+                  <p>{this.state.data.daily.data[2].summary}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <ForecastHours
-            hours={ this.state.data.hourly.data }
-            barHeight={ this.props.config.BAR_HEIGHT }
-            className="hours clearfix" />
-
-          <p className="text-center update-message">{this.state.updateMessage}</p>
-          <SlackPing pings={ this.state.pings }></SlackPing>
         </div>
       );
     } else {
