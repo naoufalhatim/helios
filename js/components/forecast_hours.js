@@ -3,8 +3,10 @@ import ForecastHour from "./forecast_hour";
 
 var ForecastHours = React.createClass({
   render: function() {
+    var numberOfHours = 7;
+
     var hours = this.props.hours.map(function (hour, index) {
-      if (index > 7) { return false; }
+      if (index > numberOfHours) { return false; }
 
       return (
         <ForecastHour
