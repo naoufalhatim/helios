@@ -1,24 +1,22 @@
-import React from 'react';
-import Moment from 'moment';
-import io from 'socket.io-client'
+import React from "react";
+import moment from "moment";
+import io from "socket.io-client";
+import $ from "jquery";
 
-import Clock from './clock';
-import SlackPing from './slack-ping';
-import CurrentDate from './current_date';
-import Temperature from './temperature';
-import ForecastHours from './forecast_hours';
-import {colorForTemp} from '../utils/helpers';
+import SlackPing from "./slack-ping";
+import Temperature from "./temperature";
+import ForecastHours from "./forecast_hours";
 
 var Weather = React.createClass({
   getInitialState: function() {
     return {
       pings: []
-    }
+    };
   },
   componentDidMount: function() {
-    this._loadWeatherFromServer();
-    this._connectToSlackStream();
-    setInterval(this._loadWeatherFromServer, 120000);
+    this.loadWeatherFromServer();
+    this.connectToSlackStream();
+    setInterval(this.loadWeatherFromServer, 120000);
   },
 
   render: function() {
@@ -45,43 +43,41 @@ var Weather = React.createClass({
           <p className="text-center update-message">{this.state.updateMessage}</p>
           <SlackPing pings={ this.state.pings }></SlackPing>
         </div>
-      )
+      );
     } else {
       return (
         <span>Loading</span>
-      )
+      );
     }
   },
 
-  _connectToSlackStream: function() {
-    var socket = io('http://localhost:9999');
-    var slackColors = ['rgba(49, 163, 142, 1)', 'rgba(237, 180, 49, 1)', 'rgba(227, 21, 99, 1)', 'rgba(136, 212, 226, 1)'];
-    socket.on('message', () => {
+  connectToSlackStream: function() {
+    var socket = io("http://localhost:9999");
+    var slackColors = ["rgba(49, 163, 142, 1)", "rgba(237, 180, 49, 1)", "rgba(227, 21, 99, 1)", "rgba(136, 212, 226, 1)"];
+    socket.on("message", () => {
       if (this.state.pings.length > 3) {
-        return
+        return;
       }
 
       this.setState({pings: this.state.pings.concat({
         color: slackColors[this.state.pings.length % slackColors.length],
         time: Date.now()
       })});
-      setTimeout(() => {this.setState({pings: this.state.pings.slice(1)})}, 10000)
-    })
+      setTimeout(() => {this.setState({pings: this.state.pings.slice(1)}); }, 10000);
+    });
   },
-  _loadWeatherFromServer: function() {
+
+  loadWeatherFromServer: function() {
     $.ajax({
       url: this.props.config.API_URL,
-      dataType: 'jsonp',
+      dataType: "jsonp",
       cache: false,
       context: this,
       success: function(data) {
         this.setState({
           data: data,
-          updateMessage: "Last updated: " + Moment().format('h:mm:ss A'),
+          updateMessage: "Last updated: " + moment().format("h:mm:ss A")
         });
-      },
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
       }
     });
   }

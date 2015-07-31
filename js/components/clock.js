@@ -1,5 +1,5 @@
-import React from 'react';
-import Moment from 'moment';
+import React from "react";
+import moment from "moment";
 
 var Clock = React.createClass({
   getInitialState: function() {
@@ -12,7 +12,7 @@ var Clock = React.createClass({
   },
 
   setTime: function() {
-    this.setState({ time: Moment().format('h:mm:ss A') });
+    this.setState({ time: moment().format("h:mm:ss A") });
   },
 
   render: function() {
@@ -20,7 +20,7 @@ var Clock = React.createClass({
       <div className={ this.props.className }>
         { this.state.time }
       </div>
-    )
+    );
   }
 });
 

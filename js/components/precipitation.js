@@ -1,11 +1,10 @@
-import React from 'react';
-import Skycons from 'react-skycons';
+import React from "react";
 
 var Precipitation = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     precipProbability: React.PropTypes.number.isRequired,
-    precipType: React.PropTypes.string,
+    precipType: React.PropTypes.string
   },
 
   render: function() {
@@ -15,9 +14,9 @@ var Precipitation = React.createClass({
           <h4>{ Math.round(this.props.precipProbability * 100) } %</h4>
           <h5>{ this.props.precipType }</h5>
         </div>
-      )
+      );
     } else {
-      return <span></span>
+      return <span></span>;
     }
   }
 });

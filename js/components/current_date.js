@@ -1,5 +1,5 @@
-import React from 'react';
-import Moment from 'moment';
+import React from "react";
+import moment from "moment";
 
 var CurrentDate = React.createClass({
   getInitialState: function() {
@@ -12,7 +12,7 @@ var CurrentDate = React.createClass({
   },
 
   setDate: function() {
-    this.setState({ date: Moment().format("dddd, MMMM Do") });
+    this.setState({ date: moment().format("dddd, MMMM Do") });
   },
 
   render: function() {
@@ -20,7 +20,7 @@ var CurrentDate = React.createClass({
       <div className={ this.props.className }>
         { this.state.date }
       </div>
-    )
+    );
   }
 });
 

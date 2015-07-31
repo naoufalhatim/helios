@@ -25,7 +25,18 @@ module.exports = function(grunt) {
       }
     },
 
+    eslint: {
+      target: ['js/*.js', 'js/**/*.js'],
+    },
+
     watch: {
+      scripts: {
+        files: ['js/*.js', 'js/**/*.js'],
+        tasks: ['eslint'],
+        options: {
+          spawn: false,
+        },
+      },
       browserify: {
         files: ['js/*.js', 'js/**/*.js'],
         tasks: ['browserify:dev']
@@ -38,7 +49,8 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-eslint');
 
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['eslint', 'watch']);
   grunt.registerTask('build', ['browserify:build']);
 };

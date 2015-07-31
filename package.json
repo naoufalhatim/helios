@@ -4,9 +4,12 @@
   "description": "Helios",
   "main": "index.js",
   "dependencies": {
+    "babel-eslint": "^4.0.5",
     "bootstrap": "^3.3.5",
     "bower": "^1.4.1",
     "browserify": "^10.2.0",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^3.1.0",
     "grunt-browserify": "^3.8.0",
     "jquery": "^2.1.3",
     "moment": "^2.10.3",
@@ -19,7 +22,8 @@
     "babelify": "^6.1.3",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
-    "grunt-contrib-watch": "^0.6.1"
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-eslint": "^16.0.0"
   },
   "scripts": {
     "watch": "grunt",
