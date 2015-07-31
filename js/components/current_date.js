@@ -12,13 +12,16 @@ var CurrentDate = React.createClass({
   },
 
   setDate: function() {
-    this.setState({ date: moment().format("dddd, MMMM Do") });
+    this.setState({
+      day: moment().format("dddd"),
+      date: moment().format("MMMM D, YYYY")
+    });
   },
 
   render: function() {
     return (
       <div className={ this.props.className }>
-        { this.state.date }
+        <strong>{ this.state.day }</strong> <span>{ this.state.date }</span>
       </div>
     );
   }
