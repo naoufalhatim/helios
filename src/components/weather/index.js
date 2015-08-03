@@ -3,9 +3,9 @@ import moment from "moment";
 import io from "socket.io-client";
 import $ from "jquery";
 
-import SlackPing from "./slack-ping";
-import Temperature from "./temperature";
-import ForecastHours from "./forecast_hours";
+import SlackPing from "../slack-ping";
+import Temperature from "../temperature";
+import ForecastHours from "../forecast-hours";
 
 var Weather = React.createClass({
   getInitialState: function() {

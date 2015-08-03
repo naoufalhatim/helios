@@ -1,6 +1,8 @@
 import React from "react/addons";
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+import "./slack.styl";
+
 module.exports = React.createClass({
   render: function() {
     return (<slack-ping>

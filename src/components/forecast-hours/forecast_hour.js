@@ -3,7 +3,7 @@ import React from "react";
 import Moment from "moment";
 import Skycons from "react-skycons";
 
-import Precipitation from "./precipitation";
+import Precipitation from "../precipitation";
 
 var ForecastHour = React.createClass({
   render: function() {
