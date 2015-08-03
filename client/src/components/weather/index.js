@@ -52,9 +52,9 @@ var Weather = React.createClass({
   },
 
   connectToSlackStream: function() {
-    var socket = io("http://localhost:9999");
+    var socket = io({path: "/socket/"});
     var slackColors = ["rgba(49, 163, 142, 1)", "rgba(237, 180, 49, 1)", "rgba(227, 21, 99, 1)", "rgba(136, 212, 226, 1)"];
-    socket.on("message", () => {
+    socket.on("slack", () => {
       if (this.state.pings.length > 3) {
         return;
       }

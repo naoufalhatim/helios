@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('../webpack.config.js');
 
-gulp.task('serve', function(cb) {
+gulp.task('webpack-dev-server', function(cb) {
   var bundler = webpack(webpackConfig);
 
   var devServer = {
@@ -12,14 +12,14 @@ gulp.task('serve', function(cb) {
     inline: true,
     historyApiFallback: true,
     host: 'localhost',
-    port: process.env.PORT || 3000,
+    port: gulp.ports.client,
     contentBase: './src',
     stats: {
       colors: true
     }
   };
 
-  new WebpackDevServer(bundler, devServer).listen(3000, 'localhost', function(err) {
+  new WebpackDevServer(bundler, devServer).listen(devServer.port, 'localhost', function(err) {
     if(err) {
       throw new $.util.PluginError('webpack-dev-server', err);
     }

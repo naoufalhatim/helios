@@ -59,7 +59,7 @@ func Service() helios.ServiceHandler {
 		h.HTTPEngine.GET("/auth/github", providerAuth)
 
 		//Socket.io Route
-		h.HTTPEngine.GET("/socket.io/", func(c *gin.Context) {
+		h.HTTPEngine.GET("/socket/", func(c *gin.Context) {
 			h.Socket.ServeHTTP(c.Writer, c.Request)
 		})
 

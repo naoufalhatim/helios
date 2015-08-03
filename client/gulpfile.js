@@ -3,4 +3,12 @@
  */
 var requireDir = require("require-dir");
 
+var gulp = require("gulp");
+
+gulp.ports = {
+  proxy: 3000,
+  client: 3001,
+  server: 8989
+};
+
 requireDir("./gulp", { recurse: true });
