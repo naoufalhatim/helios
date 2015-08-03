@@ -9,7 +9,7 @@ release: deps
 	cd api && $(MAKE) build
 	cd client && npm run build
 	@mkdir -p $(RELEASE_FOLDER)
-	@cp -rf api/bin/helios client/public $(RELEASE_FOLDER)
+	@cp -rf api/bin/helios* client/public $(RELEASE_FOLDER)
 	@cp -rf api/.env.sample $(RELEASE_FOLDER)/.env.sample
 	@echo "Finished Release"
 

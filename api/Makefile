@@ -8,7 +8,9 @@ fmt:
 	go fmt helios/...
 
 build: deps
-	go install helios
+	GOARCH=arm GOOS=linux CGO_ENABLED=0 go build -o bin/helios.pi helios
+	GOARCH=amd64 CGOOS=linux CGO_ENABLED=0 go build -o bin/helios.linux helios
+	CGO_ENABLED=0 go build -o bin/helios helios
 
 clean:
 	go clean -i -r helios/...
