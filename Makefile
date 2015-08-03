@@ -13,3 +13,6 @@ release: deps
 	@cp -rf api/.env.sample $(RELEASE_FOLDER)/.env.sample
 	@echo "Finished Release"
 
+test: deps
+	cd client && npm test
+	cd api && $(MAKE) test

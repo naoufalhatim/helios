@@ -13,6 +13,9 @@ build: deps
 clean:
 	go clean -i -r helios/...
 
+test:
+	go test helios/...
+
 serve:
 ifeq ("$(wildcard $(./bin/fresh))","")
 	@go get github.com/pilu/fresh
