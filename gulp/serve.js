@@ -23,7 +23,8 @@ gulp.task('serve', function(cb) {
     if(err) {
       throw new $.util.PluginError('webpack-dev-server', err);
     }
-    $.util.log('[webpack-dev-server]', 'http://localhost:8080/webpack-dev-server/index.html');
+    $.util.log('[webpack-dev-server]', 'http://localhost:' + devServer.port + '/webpack-dev-server/index.html');
+    $.util.log('Server started at http://localhost:' + devServer.port);
     cb();
   });
 });
