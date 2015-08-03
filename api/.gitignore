@@ -1,0 +1,12 @@
+*.swp
+bin/
+pkg/
+src/github.com
+src/golang.org
+src/gopkg.in
+src/code.google.com
+tmp/
+*.env
+*.log
+users.csv
+fresh
