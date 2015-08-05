@@ -9,6 +9,8 @@ import (
 
 const socketRoom = "helios"
 
+var serviceCache = make(map[string]interface{})
+
 func initSocket() *socketio.Server {
 	server, err := socketio.NewServer(nil)
 	if err != nil {
@@ -18,7 +20,14 @@ func initSocket() *socketio.Server {
 
 	server.On("connection", func(so socketio.Socket) {
 		fmt.Printf("New socket.io connection: %s", so.Id())
+
 		so.Join(socketRoom)
+
+		// Send all cached mesages to client
+		for message, payload := range serviceCache {
+			server.BroadcastTo(socketRoom, message, payload)
+		}
+
 		so.On("disconnection", func() {
 			// no op
 		})
@@ -36,6 +45,10 @@ func (h *Engine) NewBroadcastChannel(message string) chan interface{} {
 	go func() {
 		for {
 			msg := <-chReceiver
+
+			// cache the lastest message from this service
+			serviceCache[message] = msg
+
 			h.Info("Got message to broadcast", "socket", message)
 			h.Socket.BroadcastTo(socketRoom, message, msg)
 		}
