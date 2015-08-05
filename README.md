@@ -25,6 +25,6 @@ server binary and static assets required to run Helios.
 The frontdoor pi will run the binary and static assets that live in the `release` folder. So, a release
 must first be committed to master before the deploy steps are run.
 
-  `git remote add frontdoor pi@frontdoor.local:helios.git`
-  `git push frontdoor master`
+    git remote add frontdoor pi@frontdoor.local:helios.git
+    git push frontdoor master
 
