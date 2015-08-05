@@ -9,4 +9,4 @@
 
 ### Developing
 
-3. `npm run watch`
+3. `npm start`
