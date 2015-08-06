@@ -39,18 +39,24 @@ func initSlackRTM() error {
 
 	go rtm.HandleIncomingEvents(chReceiver)
 	go rtm.Keepalive(20 * time.Second)
-	go messageHandler(chReceiver)
+	go messageHandler(api, chReceiver)
 
 	return nil
 }
 
-func messageHandler(c chan slack.SlackEvent) {
+func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 	for {
 		select {
 		case msg := <-c:
 			switch msg.Data.(type) {
 			case *slack.MessageEvent:
-				MessageChann <- "message"
+				channelName := ""
+				event := msg.Data.(*slack.MessageEvent)
+				channel, err := api.GetChannelInfo(event.Channel)
+				if err == nil {
+					channelName = channel.Name
+				}
+				MessageChann <- channelName
 			}
 		}
 	}
