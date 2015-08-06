@@ -6,8 +6,6 @@ var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
-var AUTOPREFIXER_BROWSERS = ["last 2 version"];
-
 module.exports = {
   // Entry point(s) for the bundle
   entry: ["./src/index.js"],
@@ -31,7 +29,7 @@ module.exports = {
         test: /\.(css|styl)$/,
         loader: "style!" +
                 "css!" +
-                "autoprefixer?{browsers:" + JSON.stringify(AUTOPREFIXER_BROWSERS) + "}!" +
+                "autoprefixer!" +
                 "stylus-loader?paths=" +
                 path.resolve(__dirname, "node_modules/bootstrap-styl")
       },
