@@ -1,4 +1,4 @@
-.PHONY: deps fmt build clean serve
+.PHONY: deps fmt build release clean test serve
 export GOPATH=$(shell pwd)
 
 deps:
@@ -7,7 +7,10 @@ deps:
 fmt:
 	go fmt helios/...
 
-build: deps
+build:
+	go install helios
+
+release: deps
 	GOARCH=arm GOOS=linux CGO_ENABLED=0 go build -o bin/helios.pi helios
 	GOARCH=amd64 CGOOS=linux CGO_ENABLED=0 go build -o bin/helios.linux helios
 	CGO_ENABLED=0 go build -o bin/helios helios
