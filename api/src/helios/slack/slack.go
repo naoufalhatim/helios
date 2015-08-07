@@ -3,18 +3,22 @@ package slack
 import (
 	"helios/helios"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/nlopes/slack"
 )
 
 var MessageChann chan helios.Message
+var CommandChann chan helios.Message
+var Users = make(map[string]slack.User)
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
 		// Setup broadcaster and save channel to a global
 		MessageChann = h.NewBroadcastChannel("slack")
+		CommandChann = h.NewBroadcastChannel("command")
 
 		err := initSlackRTM()
 		if err != nil {
@@ -37,6 +41,17 @@ func initSlackRTM() error {
 		return err
 	}
 
+	// Cache all users for mention lookups
+	users, err := api.GetUsers()
+	if err != nil {
+		return err
+	}
+
+	// Map all users ids to user type
+	for _, u := range users {
+		Users[u.ID] = u
+	}
+
 	go rtm.HandleIncomingEvents(chReceiver)
 	go rtm.Keepalive(20 * time.Second)
 	go messageHandler(api, chReceiver)
@@ -56,7 +71,25 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 				if err == nil {
 					channelName = channel.Name
 				}
+
 				MessageChann <- helios.NewMessage(channelName)
+
+				// Find only the first mention at the begining of the string
+				re := regexp.MustCompile("^<@(.*?)>:? (\\w+)")
+				match := re.FindStringSubmatch(event.Text)
+
+				if len(match) < 3 {
+					continue
+				}
+
+				// Validate that user id exists
+				if u, ok := Users[match[1]]; ok {
+					// Commands can only be sent to the defined name and a valid bot
+					if u.Name == os.Getenv("SLACK_BOT_NAME") && u.IsBot {
+						CommandChann <- helios.NewMessage(match[2])
+					}
+				}
+
 			}
 		}
 	}
