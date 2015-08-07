@@ -6,7 +6,7 @@ deps:
 	cd client && npm i
 
 release: deps
-	cd api && $(MAKE) build
+	cd api && $(MAKE) release
 	cd client && npm run build
 	@mkdir -p $(RELEASE_FOLDER)
 	@cp -rf api/bin/helios* client/public $(RELEASE_FOLDER)
