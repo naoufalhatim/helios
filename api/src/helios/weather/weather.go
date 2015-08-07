@@ -10,7 +10,7 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
-var WeatherChan chan interface{}
+var WeatherChan chan helios.Message
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
@@ -27,9 +27,12 @@ func Service() helios.ServiceHandler {
 
 func initWeatherFetch(apiURL string) {
 	for {
-		weather := getWeather(apiURL)
-
-		WeatherChan <- weather
+		weather, err := getWeather(apiURL)
+		if err != nil {
+			WeatherChan <- helios.NewError("Failed to fetch latest weather")
+		} else {
+			WeatherChan <- helios.NewMessage(weather)
+		}
 
 		// Timeout for 120 seconds before next request
 		time.Sleep(120 * time.Second)
@@ -38,12 +41,13 @@ func initWeatherFetch(apiURL string) {
 	panic("Shouldn't be here")
 }
 
-func getWeather(apiURL string) interface{} {
+func getWeather(apiURL string) (interface{}, error) {
 	var weatherBody interface{}
 
 	resp, err := http.Get(apiURL)
 	if err != nil {
 		log.Warn("Failed to fetch weather", "error", err.Error())
+		return nil, err
 	}
 	defer resp.Body.Close()
 
@@ -52,7 +56,8 @@ func getWeather(apiURL string) interface{} {
 	err = decoder.Decode(&weatherBody)
 	if err != nil {
 		log.Warn("Failed to parse weather body", "error", err.Error())
+		return nil, err
 	}
 
-	return weatherBody
+	return weatherBody, nil
 }
