@@ -15,7 +15,7 @@ import (
 
 var LastEvent Event
 var Users = make(map[string]User)
-var EventChan chan interface{}
+var EventChan chan helios.Message
 
 func loadUsersCSV() error {
 	// Open and parse existing users from the uat file

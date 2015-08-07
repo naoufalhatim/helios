@@ -2,6 +2,7 @@ package github
 
 import (
 	"fmt"
+	"helios/helios"
 	"strconv"
 	"time"
 
@@ -21,7 +22,7 @@ func startUser(u User) {
 	go userRoutine(u, EventChan)
 }
 
-func userRoutine(u User, c chan<- interface{}) error {
+func userRoutine(u User, c chan<- helios.Message) error {
 
 	ts := tokenSource{
 		&oauth2.Token{
@@ -40,6 +41,7 @@ func userRoutine(u User, c chan<- interface{}) error {
 		events, resp, err := client.Activity.ListEventsPerformedByUser(u.Username, false, &opts)
 		if err != nil {
 			log.Warn("Problem retrieving events for user", "username", u.Username, "error", err.Error())
+			c <- helios.NewError("Problem retrieving events")
 		}
 
 		newEventTime := LastEvent.EventTime
@@ -53,7 +55,7 @@ func userRoutine(u User, c chan<- interface{}) error {
 		dur := LastEvent.EventTime.Sub(newEventTime)
 		if dur.Seconds() > 0.0 {
 			LastEvent.EventTime = newEventTime
-			c <- events[0]
+			c <- helios.NewMessage(events[0])
 		}
 		LastEvent.Unlock()
 

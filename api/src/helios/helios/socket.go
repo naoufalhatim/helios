@@ -7,9 +7,34 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
-const socketRoom = "helios"
+const (
+	ROOM    = "helios"
+	MESSAGE = "event"
+)
 
-var serviceCache = make(map[string]interface{})
+var serviceCache = make(map[string]socketMessage)
+
+type socketMessage struct {
+	Type string `json:"type"`
+	Message
+}
+
+type Message struct {
+	Data  interface{} `json:"data,omitempty"`
+	Error interface{} `json:"error,omitempty"`
+}
+
+func NewMessage(payload interface{}) Message {
+	return Message{
+		Data: payload,
+	}
+}
+
+func NewError(err interface{}) Message {
+	return Message{
+		Error: err,
+	}
+}
 
 func initSocket() *socketio.Server {
 	server, err := socketio.NewServer(nil)
@@ -21,11 +46,11 @@ func initSocket() *socketio.Server {
 	server.On("connection", func(so socketio.Socket) {
 		fmt.Printf("New socket.io connection: %s", so.Id())
 
-		so.Join(socketRoom)
+		so.Join(ROOM)
 
 		// Send all cached mesages to client
-		for message, payload := range serviceCache {
-			server.BroadcastTo(socketRoom, message, payload)
+		for _, payload := range serviceCache {
+			server.BroadcastTo(ROOM, MESSAGE, payload)
 		}
 
 		so.On("disconnection", func() {
@@ -40,17 +65,22 @@ func initSocket() *socketio.Server {
 	return server
 }
 
-func (h *Engine) NewBroadcastChannel(message string) chan interface{} {
-	chReceiver := make(chan interface{})
+func (h *Engine) NewBroadcastChannel(message string) chan Message {
+	chReceiver := make(chan Message)
 	go func() {
 		for {
 			msg := <-chReceiver
 
+			wrappedMsg := socketMessage{
+				Type:    message,
+				Message: msg,
+			}
+
 			// cache the lastest message from this service
-			serviceCache[message] = msg
+			serviceCache[message] = wrappedMsg
 
 			h.Info("Got message to broadcast", "socket", message)
-			h.Socket.BroadcastTo(socketRoom, message, msg)
+			h.Socket.BroadcastTo(ROOM, MESSAGE, wrappedMsg)
 		}
 	}()
 	return chReceiver

@@ -8,7 +8,7 @@ import (
 	"github.com/nlopes/slack"
 )
 
-var MessageChann chan interface{}
+var MessageChann chan helios.Message
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
@@ -56,7 +56,7 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 				if err == nil {
 					channelName = channel.Name
 				}
-				MessageChann <- channelName
+				MessageChann <- helios.NewMessage(channelName)
 			}
 		}
 	}
