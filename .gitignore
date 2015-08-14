@@ -3,3 +3,5 @@ node_modules
 dploy.yaml
 config.json
 client/public/
+release/
+error.log
