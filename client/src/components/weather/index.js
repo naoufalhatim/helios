@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import $ from "jquery";
 
 import SlackPing from "../slack-ping";
 import Temperature from "../temperature";
@@ -14,15 +13,22 @@ var Weather = React.createClass({
   },
 
   componentDidMount: function() {
-    this.loadWeatherFromServer();
-    setInterval(this.loadWeatherFromServer, 120000);
-
-    this.dispatchToken = AppDispatcher.registerIfType("slack", () => {
-      this.receiveSlackStream();
+    this.dispatchToken = AppDispatcher.registerIfType("weather", (payload) => {
+      var action = payload.action;
+      this.receiveWeather(action.data);
     });
   },
 
-  componentDidUnmount: function() {},
+  receiveWeather: function(data) {
+    this.setState({
+      data: data,
+      updateMessage: "Weather updated: " + moment().format("h:mm:ss A")
+    });
+  },
+
+  componentDidUnmount: function() {
+    AppDispatcher.unregister(this.dispatchToken);
+  },
 
   render: function() {
     if (this.state.data) {
@@ -54,21 +60,6 @@ var Weather = React.createClass({
         <span>Loading</span>
       );
     }
-  },
-
-  loadWeatherFromServer: function() {
-    $.ajax({
-      url: this.props.config.API_URL,
-      dataType: "jsonp",
-      cache: false,
-      context: this,
-      success: function(data) {
-        this.setState({
-          data: data,
-          updateMessage: "Last updated: " + moment().format("h:mm:ss A")
-        });
-      }
-    });
   }
 });
 
