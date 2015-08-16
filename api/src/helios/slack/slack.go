@@ -12,6 +12,7 @@ import (
 var MessageChann chan helios.Message
 var CommandChann chan helios.Message
 var Users = make(map[string]slack.User)
+var Channels = make(map[string]slack.Channel)
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
@@ -52,6 +53,17 @@ func initSlackRTM() error {
 		Users[u.Id] = u
 	}
 
+	// Cache all channels for lookups
+	channels, err := api.GetChannels(true)
+	if err != nil {
+		return err
+	}
+
+	// Map all channel ids to channel type
+	for _, c := range channels {
+		Channels[c.Id] = c
+	}
+
 	go rtm.HandleIncomingEvents(chReceiver)
 	go rtm.Keepalive(20 * time.Second)
 	go messageHandler(api, chReceiver)
@@ -67,8 +79,8 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 			case *slack.MessageEvent:
 				channelName := ""
 				event := msg.Data.(*slack.MessageEvent)
-				channel, err := api.GetChannelInfo(event.ChannelId)
-				if err == nil {
+
+				if channel, ok := Channels[event.ChannelId]; ok {
 					channelName = channel.Name
 				}
 
