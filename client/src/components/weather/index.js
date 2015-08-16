@@ -10,9 +10,7 @@ import AppDispatcher from "../../dispatcher";
 
 var Weather = React.createClass({
   getInitialState: function() {
-    return {
-      pings: []
-    };
+    return {};
   },
 
   componentDidMount: function() {
@@ -24,9 +22,7 @@ var Weather = React.createClass({
     });
   },
 
-  componentDidUnmount: function() {
-    AppDispatcher.unregister(this.dispatchToken);
-  },
+  componentDidUnmount: function() {},
 
   render: function() {
     if (this.state.data) {
@@ -50,7 +46,7 @@ var Weather = React.createClass({
             className="hours clearfix" />
 
           <p className="text-center update-message">{this.state.updateMessage}</p>
-          <SlackPing pings={ this.state.pings }></SlackPing>
+          <SlackPing></SlackPing>
         </div>
       );
     } else {
@@ -58,18 +54,6 @@ var Weather = React.createClass({
         <span>Loading</span>
       );
     }
-  },
-
-  receiveSlackStream: function() {
-    var slackColors = ["rgba(49, 163, 142, 1)", "rgba(237, 180, 49, 1)", "rgba(227, 21, 99, 1)", "rgba(136, 212, 226, 1)"];
-    if (this.state.pings.length > 3) {
-      return;
-    }
-    this.setState({pings: this.state.pings.concat({
-      color: slackColors[this.state.pings.length % slackColors.length],
-      time: Date.now()
-    })});
-    setTimeout(() => {this.setState({pings: this.state.pings.slice(1)}); }, 10000);
   },
 
   loadWeatherFromServer: function() {
