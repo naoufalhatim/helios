@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/nlopes/slack"
+	"gopkg.in/nlopes/slack.v0"
 )
 
 var MessageChann chan helios.Message
@@ -49,7 +49,7 @@ func initSlackRTM() error {
 
 	// Map all users ids to user type
 	for _, u := range users {
-		Users[u.ID] = u
+		Users[u.Id] = u
 	}
 
 	go rtm.HandleIncomingEvents(chReceiver)
@@ -67,7 +67,7 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 			case *slack.MessageEvent:
 				channelName := ""
 				event := msg.Data.(*slack.MessageEvent)
-				channel, err := api.GetChannelInfo(event.Channel)
+				channel, err := api.GetChannelInfo(event.ChannelId)
 				if err == nil {
 					channelName = channel.Name
 				}
