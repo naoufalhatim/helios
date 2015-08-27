@@ -9,6 +9,11 @@ import (
 	"gopkg.in/nlopes/slack.v0"
 )
 
+type Command struct {
+	Name string   `json:"name"`
+	Args []string `json:"args"`
+}
+
 var MessageChann chan helios.Message
 var CommandChann chan helios.Message
 var Users = make(map[string]slack.User)
@@ -87,7 +92,7 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 				MessageChann <- helios.NewMessage(channelName)
 
 				// Find only the first mention at the begining of the string
-				re := regexp.MustCompile("^<@(.*?)>:? (\\w+)")
+				re := regexp.MustCompile(`^<@(.*?)>:? (\w+)\s?(.*)?`)
 				match := re.FindStringSubmatch(event.Text)
 
 				if len(match) < 3 {
@@ -98,7 +103,21 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 				if u, ok := Users[match[1]]; ok {
 					// Commands can only be sent to the defined name and a valid bot
 					if u.Name == os.Getenv("SLACK_BOT_NAME") && u.IsBot {
-						CommandChann <- helios.NewMessage(match[2])
+						args := []string{}
+
+						// If we have more than the username and command then process the rest as args
+						if len(match) > 3 {
+							re := regexp.MustCompile(`"[^"]+"|[\w]+`) // Match individual words and quoted strings
+							args = re.FindAllString(match[3], -1)
+						}
+
+						// Wrap the command information
+						command := Command{
+							Name: match[2],
+							Args: args,
+						}
+
+						CommandChann <- helios.NewMessage(command)
 					}
 				}
 
