@@ -1,6 +1,5 @@
 import React from "react";
 import moment from "moment";
-import $ from "jquery";
 
 import SlackPing from "../slack-ping";
 import Temperature from "../temperature";
@@ -10,17 +9,20 @@ import AppDispatcher from "../../dispatcher";
 
 var Weather = React.createClass({
   getInitialState: function() {
-    return {
-      pings: []
-    };
+    return {};
   },
 
   componentDidMount: function() {
-    this.loadWeatherFromServer();
-    setInterval(this.loadWeatherFromServer, 120000);
+    this.dispatchToken = AppDispatcher.registerIfType("weather", (payload) => {
+      var action = payload.action;
+      this.receiveWeather(action.data);
+    });
+  },
 
-    this.dispatchToken = AppDispatcher.registerIfType("slack", () => {
-      this.receiveSlackStream();
+  receiveWeather: function(data) {
+    this.setState({
+      data: data,
+      updateMessage: "Weather updated: " + moment().format("h:mm:ss A")
     });
   },
 
@@ -50,7 +52,7 @@ var Weather = React.createClass({
             className="hours clearfix" />
 
           <p className="text-center update-message">{this.state.updateMessage}</p>
-          <SlackPing pings={ this.state.pings }></SlackPing>
+          <SlackPing></SlackPing>
         </div>
       );
     } else {
@@ -58,33 +60,6 @@ var Weather = React.createClass({
         <span>Loading</span>
       );
     }
-  },
-
-  receiveSlackStream: function() {
-    var slackColors = ["rgba(49, 163, 142, 1)", "rgba(237, 180, 49, 1)", "rgba(227, 21, 99, 1)", "rgba(136, 212, 226, 1)"];
-    if (this.state.pings.length > 3) {
-      return;
-    }
-    this.setState({pings: this.state.pings.concat({
-      color: slackColors[this.state.pings.length % slackColors.length],
-      time: Date.now()
-    })});
-    setTimeout(() => {this.setState({pings: this.state.pings.slice(1)}); }, 10000);
-  },
-
-  loadWeatherFromServer: function() {
-    $.ajax({
-      url: this.props.config.API_URL,
-      dataType: "jsonp",
-      cache: false,
-      context: this,
-      success: function(data) {
-        this.setState({
-          data: data,
-          updateMessage: "Last updated: " + moment().format("h:mm:ss A")
-        });
-      }
-    });
   }
 });
 

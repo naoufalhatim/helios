@@ -7,6 +7,7 @@ import (
 	"helios/helios"
 	"helios/slack"
 	"helios/static"
+	"helios/weather"
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -31,9 +32,7 @@ func main() {
 	h.Use(static.Service())
 	h.Use(github.Service())
 	h.Use(slack.Service())
-
-	// Disable weather service until client and cache is implemented
-	// h.Use(weather.Service())
+	h.Use(weather.Service())
 
 	// Initialize helios
 	h.Run(port)
