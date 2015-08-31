@@ -8,6 +8,7 @@ let DISCONNECTED_EVENT = "disconnected";
 // Socket Service. Extend event emitter for broadcasting connect and disconnect events
 class SocketService extends EventEmitter {
   connect(host) {
+    host = host || "";
     this.socket = io(host, {path: "/socket/"});
 
     // Setup socket events
