@@ -1,0 +1,9 @@
+{
+  "type": "command",
+  "data": {
+    "name": "display",
+    "args": [
+      "\"Hello World!\""
+    ]
+  }
+}

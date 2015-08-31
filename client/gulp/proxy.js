@@ -10,6 +10,8 @@ var http = require('http');
 var httpProxy = require('http-proxy');
 
 function proxyServerInit() {
+  var useFallbackServer = false;
+
   // Proxy for static asset requests and browser sync socket
   var proxyWeb = new httpProxy.createProxyServer({
     target: {
@@ -37,8 +39,31 @@ function proxyServerInit() {
     res.writeHead(500, {
       'Content-Type': 'text/plain'
     });
-    if (error.code != "ECONNREFUSED") {
+
+    if (error.code === "ECONNREFUSED") {
+      console.log(chalk.red('[ProxyServer] Failed to connect to server. Using fallback mock server'));
+      useFallbackServer = true;
+    } else {
       console.error(chalk.red('[ProxyServer]'), error);
+    }
+  });
+
+  // Proxy for mock server requests and mock server socket
+  var proxyMock = new httpProxy.createProxyServer({
+    target: {
+      host: 'localhost',
+      port: ports.mock
+    }
+  });
+
+  proxyMock.on('error', function (error, req, res){
+    res.writeHead(500, {
+      'Content-Type': 'text/plain'
+    });
+    if (error.code === "ECONNREFUSED") {
+      console.log(chalk.red('[ProxyMock] Failed to connect to mock server.'));
+    } else {
+      console.error(chalk.red('[ProxyMock]'), error);
     }
   });
 
@@ -50,8 +75,10 @@ function proxyServerInit() {
 
     if (staticExtensions || indexPage || webpackSocket) {
       proxyWeb.web(req, res);
-    } else {
+    } else if (!useFallbackServer) {
       proxyServer.web(req, res);
+    } else {
+      proxyMock.web(req, res);
     }
   });
 
@@ -60,8 +87,10 @@ function proxyServerInit() {
     var webpackSocket = /^\/socket.io/.test(req.url);
     if (webpackSocket) {
       proxyWeb.ws(req, socket, head);
-    } else {
+    } else if (!useFallbackServer) {
       proxyServer.ws(req, socket, head);
+    } else {
+      proxyMock.ws(req, socket, head);
     }
   });
 
@@ -69,6 +98,6 @@ function proxyServerInit() {
   server.listen(ports.proxy);
 }
 
-gulp.task('serve', ['webpack-dev-server'], function() {
+gulp.task('serve', ['dev-mock-server', 'webpack-dev-server'], function() {
   proxyServerInit();
 });
