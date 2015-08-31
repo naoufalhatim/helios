@@ -1,5 +1,4 @@
 import React from "react";
-import config from "../config.json";
 import SocketService from "./services/socket.io";
 import Weather from "./components/weather";
 
