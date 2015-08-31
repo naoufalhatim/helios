@@ -4,5 +4,5 @@ dploy.yaml
 config.json
 client/public/
 release/
-error.log
 public/*
+*.log
