@@ -39,6 +39,11 @@ func (h *Engine) Run(port string) {
 	// Start services services
 	h.startServices()
 
+	//Socket.io Route
+	h.HTTPEngine.GET("/socket/", func(c *gin.Context) {
+		h.Socket.ServeHTTP(c.Writer, c.Request)
+	})
+
 	// Start engine now that all services have loaded
 	h.HTTPEngine.Run(":" + port)
 }

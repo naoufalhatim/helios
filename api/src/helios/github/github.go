@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/markbates/goth"
 	githubProvider "github.com/markbates/goth/providers/github"
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -57,11 +56,6 @@ func Service() helios.ServiceHandler {
 		// Setup github auth routes
 		h.HTTPEngine.GET("/auth/github/callback", providerCallback)
 		h.HTTPEngine.GET("/auth/github", providerAuth)
-
-		//Socket.io Route
-		h.HTTPEngine.GET("/socket/", func(c *gin.Context) {
-			h.Socket.ServeHTTP(c.Writer, c.Request)
-		})
 
 		// Start socket broadcast channel and save the channel to a global
 		EventChan = h.NewBroadcastChannel("github")
