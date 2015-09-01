@@ -1,6 +1,6 @@
 import React from "react";
 
-var Temperature = React.createClass({
+module.exports = React.createClass({
   propTypes: {
     value: React.PropTypes.number.isRequired
   },
@@ -11,5 +11,3 @@ var Temperature = React.createClass({
     );
   }
 });
-
-module.exports = Temperature;
