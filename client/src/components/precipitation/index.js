@@ -1,6 +1,6 @@
 import React from "react";
 
-var Precipitation = React.createClass({
+module.exports = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     precipProbability: React.PropTypes.number.isRequired,
@@ -20,5 +20,3 @@ var Precipitation = React.createClass({
     }
   }
 });
-
-module.exports = Precipitation;
