@@ -1,6 +1,6 @@
 import React from "react";
 import SocketService from "./services/socket.io";
-import Weather from "./components/weather";
+import Helios from "./components/helios";
 
 // Import Styles
 import "styles/main.styl";
@@ -8,4 +8,4 @@ import "styles/main.styl";
 // Setup socket connection
 SocketService.connect();
 
-React.render(<Weather config={ config } />, document.getElementById("weather"));
+React.render(<Helios/>, document.getElementById("helios"));

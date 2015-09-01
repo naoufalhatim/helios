@@ -1,23 +1,27 @@
-@import url("http://fonts.googleapis.com/css?family=Roboto")
+*
+  box-sizing: border-box
 
 body
   background-color: black
   color: white
-  font-family: 'Roboto', sans-serif
-  font-size: 46px
+  font-family: "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-size-adjust: auto;
+  line-height: 1em
+  font-size: 16px
+  margin: 0
+
+h1,
+h2,
+h3,
+h4
+  margin: 0
   padding: 0
-  overflow: hidden
-
-h1
-  font-size: 500px
-  line-height: .7
-  margin: 20px 0
-
-h2
-  font-size: 120px
-
-h3
-  font-size: 30px
+  line-height: 1em
+  font-weight: normal
+  font-size: 16px
 
 .hours canvas
   margin-bottom: 10px
@@ -26,22 +30,83 @@ h3
 body table.weather-graph td
   border-top: none
 
-h4
-  margin-bottom: 0
+.date-stamp
+  position: fixed
+  top: 0
+  left: 0
 
-h5
-  font-size: 24px
-  margin-top: 3px
+.activity
+  position: fixed
+  top: 0
+  right: 0
 
-.weather-graph td
+.wrapper
+  overflow: hidden
+  position: relative
+  margin-top: 200px
+
+.date-details
+  color: rgba(white, .5)
+
+.label-primary
+  font-size: 20px
+  font-weight: bold
+  margin-bottom: 10px
+
+.label-secondary
+  font-weight: bold
+  color: rgba(#fff, .5)
+  margin-bottom: 25px
+
+.time
+  width: 20%
+  float: left
   text-align: center
 
-.bottom
-  bottom: 0
-  left: 15px
-  position: absolute
-  right: 15px
+.time-secondary
+  margin: 50px 10px 0 10px
+  width: 30%
+  padding-bottom: 30%
+  display: inline-block
 
-.update-message
-  color: #aaa
-  font-size: 18px
+.weather
+  width: 80%
+  float: left
+  padding-left: 100px
+
+.weather-overview
+  overflow: hidden
+  margin-bottom: 50px
+
+  .current
+    width: 33.333333%
+    float: left
+
+  .current-temp
+    font-size: 160px
+    font-weight: bold
+
+  .hourly-breakdown
+    font-size: 0
+    width: 66.666666%
+    float: left
+
+  .hour
+    font-size: 16px
+    width: 12.5%
+    display: inline-block
+    padding-right: 25px
+
+.forecast
+  width: 33.333333%
+  float: left
+  padding-right: 25px
+  font-size: 20px
+  line-height: 30px
+  font-weight: bold
+
+.today
+  .forecast-details
+    font-size: 30px
+    line-height: 40px
+

@@ -10,6 +10,7 @@ var ForecastHours = React.createClass({
 
       return (
         <ForecastHour
+          className="hour"
           key={ hour.time }
           hour={ hour }
         />
@@ -17,7 +18,7 @@ var ForecastHours = React.createClass({
     }, this);
 
     return (
-      <ul className={ this.props.className }>{ hours }</ul>
+      <div className={ this.props.className }>{ hours }</div>
     );
   }
 });
