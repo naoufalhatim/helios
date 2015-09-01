@@ -91,7 +91,7 @@ var Clock = React.createClass({
           </g>
 
           <rect
-            style={{ transform: "rotate(" + this.state.hourHandRotation + "deg)" }}
+            style={{ WebkitTransform: "rotate(" + this.state.hourHandRotation + "deg)" }}
             className="clock-hand"
             x="146.9"
             y="70"
@@ -99,14 +99,14 @@ var Clock = React.createClass({
             width="10"
             height="83"/>
           <rect
-            style={{ transform: "rotate(" + this.state.minuteHandRotation + "deg)" }}
+            style={{ WebkitTransform: "rotate(" + this.state.minuteHandRotation + "deg)" }}
             className="clock-hand"
             x="146.9"
             y="40"
             fill={ this.props.minuteHandColor }
             width="10"
             height="113" />
-          <g className="clock-hand" style={{ transform: "rotate(" + this.state.secondHandRotation + "deg)" }}>
+          <g className="clock-hand" style={{ WebkitTransform: "rotate(" + this.state.secondHandRotation + "deg)" }}>
             <rect x="146.9" y="40" fill={ this.props.secondHandColor } width="10" height="113"/>
             <circle fill="none" stroke={ this.props.secondHandColor } strokeWidth="10" cx="152" cy="34" r="10" />
           </g>
