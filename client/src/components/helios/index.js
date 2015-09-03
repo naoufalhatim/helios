@@ -7,6 +7,8 @@ import ForecastHours from "../forecast-hours";
 import ForecastDay from "../forecast-day";
 import DateStamp from "../date-stamp";
 import Activity from "../activity";
+import HourlyIcons from "../hourly-icons";
+import Temperature from "../temperature";
 
 import AppDispatcher from "../../dispatcher";
 
@@ -43,6 +45,14 @@ module.exports = React.createClass({
             <div className="weather-overview">
               <CurrentConditions data={ this.state.data } />
               <ForecastHours
+                hours={ this.state.data.hourly.data }
+                className="hourly-breakdown" />
+            </div>
+            <div className="weather-overview">
+              <h1 className="current-temp current">
+                <Temperature value={ this.state.data.currently.temperature } />
+              </h1>
+              <HourlyIcons
                 hours={ this.state.data.hourly.data }
                 className="hourly-breakdown" />
             </div>
