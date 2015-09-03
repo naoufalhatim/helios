@@ -12,7 +12,7 @@ module.exports = React.createClass({
   },
 
   setDate: function() {
-    this.setState({ day: moment().format("dddd"), date: moment().format("MMMM M, YYYY") });
+    this.setState({ day: moment().format("dddd"), date: moment().format("MMMM D, YYYY") });
   },
 
   componentWillUnmount: function() {
