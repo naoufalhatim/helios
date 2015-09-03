@@ -63,11 +63,11 @@ module.exports = React.createClass({
                 data={ this.state.data.daily.data[0] } />
               <ForecastDay
                 className="forecast extended"
-                title={ moment().add("days", 1).format("dddd") }
+                title={ moment().add(1, "days").format("dddd") }
                 data={ this.state.data.daily.data[1] } />
               <ForecastDay
                 className="forecast extended"
-                title={ moment().add("days", 2).format("dddd") }
+                title={ moment().add(2, "days").format("dddd") }
                 data={ this.state.data.daily.data[2] } />
             </div>
             <Activity />
