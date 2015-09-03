@@ -1,6 +1,7 @@
 package helios
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -11,11 +12,16 @@ import (
 type Engine struct {
 	HTTPEngine *gin.Engine
 	Socket     *socketio.Server
-	services   []ServiceHandler
+	services   []Service
 	log.Logger
 }
 
 type ServiceHandler func(*Engine) error
+
+type Service struct {
+	name    string
+	handler ServiceHandler
+}
 
 func New() *Engine {
 	// package instance of the helios type
@@ -31,8 +37,8 @@ func New() *Engine {
 	return engine
 }
 
-func (h *Engine) Use(mw ServiceHandler) {
-	h.services = append(h.services, mw)
+func (h *Engine) Use(name string, mw ServiceHandler) {
+	h.services = append(h.services, Service{name, mw})
 }
 
 func (h *Engine) Run(port string) {
@@ -49,10 +55,10 @@ func (h *Engine) Run(port string) {
 }
 
 func (h *Engine) startServices() {
-	for _, mw := range h.services {
-		err := mw(h)
+	for _, s := range h.services {
+		err := s.handler(h)
 		if err != nil {
-			h.Warn("Failed to start service: ", err)
+			h.Warn(fmt.Sprintf("Failed to start service: Error: %s", err), "service", s.name)
 		}
 	}
 }
