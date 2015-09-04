@@ -2,13 +2,13 @@
 export GOPATH=$(shell pwd)
 
 deps:
-	go get -d -v helios/...
+	@go get -d -v helios/...
 
 fmt:
-	go fmt helios/...
+	@go fmt helios/...
 
 build:
-	go install helios
+	@go install helios
 
 release: deps
 	GOARCH=arm GOOS=linux CGO_ENABLED=0 go build -o bin/helios.pi helios
@@ -16,10 +16,10 @@ release: deps
 	CGO_ENABLED=0 go build -o bin/helios helios
 
 clean:
-	go clean -i -r helios/...
+	@go clean -i -r helios/...
 
 test:
-	go test helios/...
+	@go test helios/...
 
 serve:
 ifeq ("$(wildcard $(./bin/fresh))","")
