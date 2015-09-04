@@ -28,11 +28,11 @@ func main() {
 
 	h := helios.New()
 
-	h.Use(cors.Service())
-	h.Use(static.Service())
-	h.Use(github.Service())
-	h.Use(slack.Service())
-	h.Use(weather.Service())
+	h.Use("cors", cors.Service())
+	h.Use("static", static.Service())
+	h.Use("github", github.Service())
+	h.Use("slack", slack.Service())
+	h.Use("weather", weather.Service())
 
 	// Initialize helios
 	h.Run(port)
