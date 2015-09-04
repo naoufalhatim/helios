@@ -15,16 +15,15 @@ Refer to each readme file for how to develop for each service.
 
 ### Release
 
-Helios contains a `release` folder in the root of the repo. The release folder contains the compiled
+Helios will compile all of the assets into a `release` folder in the root of the repo. The release folder will contains the compiled
 server binary and static assets required to run Helios.
 
   `make release`
 
 ### Deploying to Frontdoor Pi
 
-The frontdoor pi will run the binary and static assets that live in the `release` folder. So, a release
-must first be committed to master before the deploy steps are run.
+To deploy to the internal instance of helios, run the `deploy` task from within the same network that helios is running. This will
+prompt for the pi's password several times unless your public key is on the pi running helios.
 
-    git remote add frontdoor pi@frontdoor.local:helios.git
-    git push frontdoor master
+    `make deploy`
 
