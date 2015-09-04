@@ -8,9 +8,8 @@ module.exports = React.createClass({
       if (index > 7) { return false; }
 
       return (
-        <div className="hour">
+        <div className="hour" key={ hour.time }>
           <Skycons
-            key={ hour.time }
             color="#fff"
             icon={ hour.icon.toUpperCase().replace(/-/g, "_") }
             autoplay={ true } />

@@ -46,7 +46,7 @@ var Clock = React.createClass({
 
   render: function() {
     return (
-      <svg viewbox="0 0 305 305" x="0px" y="0px" width={ this.props.width } height={ this.props.height }>
+      <svg viewBox="0 0 305 305" x="0px" y="0px" width={ this.props.width } height={ this.props.height }>
         <g>
           <g style={{ fill: this.props.mainFaceMarksColor }}>
             <rect width="10" height="30" x="146.9" />
