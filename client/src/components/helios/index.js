@@ -22,6 +22,11 @@ module.exports = React.createClass({
       var action = payload.action;
       this.receiveWeather(action.data);
     });
+
+    this.commandDispatchToken = AppDispatcher.registerIfType("command", (payload) => {
+      var action = payload.action;
+      this.receiveCommand(action.data);
+    });
   },
 
   receiveWeather: function(data) {
@@ -31,8 +36,19 @@ module.exports = React.createClass({
     });
   },
 
+  receiveCommand: function(data) {
+    // Top level command listeners
+    switch (data.name) {
+      case "refresh":
+        // Reload the page when the "refresh" command is sent
+        location.reload();
+        break;
+    }
+  },
+
   componentDidUnmount: function() {
     AppDispatcher.unregister(this.dispatchToken);
+    AppDispatcher.unregister(this.commandDispatchToken);
   },
 
   render: function() {
