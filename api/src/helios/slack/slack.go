@@ -23,8 +23,8 @@ func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
 		// Setup broadcaster and save channel to a global
-		MessageChann = h.NewBroadcastChannel("slack")
-		CommandChann = h.NewBroadcastChannel("command")
+		MessageChann = h.NewBroadcastChannel("slack", true)
+		CommandChann = h.NewBroadcastChannel("command", false)
 
 		err := initSlackRTM()
 		if err != nil {

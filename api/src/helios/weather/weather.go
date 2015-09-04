@@ -17,7 +17,7 @@ func Service() helios.ServiceHandler {
 
 		apiURL := os.Getenv("WEATHER_API")
 
-		WeatherChan = h.NewBroadcastChannel("weather")
+		WeatherChan = h.NewBroadcastChannel("weather", true)
 
 		go initWeatherFetch(apiURL)
 

@@ -65,7 +65,7 @@ func initSocket() *socketio.Server {
 	return server
 }
 
-func (h *Engine) NewBroadcastChannel(message string) chan Message {
+func (h *Engine) NewBroadcastChannel(message string, enableCache bool) chan Message {
 	chReceiver := make(chan Message)
 	go func() {
 		for {
@@ -76,8 +76,10 @@ func (h *Engine) NewBroadcastChannel(message string) chan Message {
 				Message: msg,
 			}
 
-			// cache the lastest message from this service
-			serviceCache[message] = wrappedMsg
+			if enableCache {
+				// cache the lastest message from this service
+				serviceCache[message] = wrappedMsg
+			}
 
 			h.Info("Got message to broadcast", "socket", message)
 			h.Socket.BroadcastTo(ROOM, MESSAGE, wrappedMsg)

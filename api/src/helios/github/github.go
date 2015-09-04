@@ -58,7 +58,7 @@ func Service() helios.ServiceHandler {
 		h.HTTPEngine.GET("/auth/github", providerAuth)
 
 		// Start socket broadcast channel and save the channel to a global
-		EventChan = h.NewBroadcastChannel("github")
+		EventChan = h.NewBroadcastChannel("github", true)
 
 		// Load registered users
 		err := loadUsersCSV()
