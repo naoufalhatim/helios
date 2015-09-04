@@ -9,8 +9,8 @@ var ForecastHour = React.createClass({
       <div
         key={this.props.hour.time}
         className={ this.props.className }>
-        <h2 className="label-primary hour-title">{ Moment.unix(this.props.hour.time).format("ha") }</h2>
-        <h3 className="label-secondary hour-details"><Temperature value={ this.props.hour.temperature } /></h3>
+        <h3 className="label-secondary hour-details">{ Moment.unix(this.props.hour.time).format("ha") }</h3>
+        <h2 className="label-primary hour-title"><Temperature value={ this.props.hour.temperature } /></h2>
       </div>
     );
   }
