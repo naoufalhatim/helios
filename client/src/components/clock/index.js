@@ -36,10 +36,11 @@ var Clock = React.createClass({
   setTime: function() {
     var d = new Date();
     var minutes = (d.getMinutes() / 60);
+    var seconds = (d.getSeconds() / 60);
 
     this.setState({
       secondHandRotation: this.state.secondHandRotation + 6,
-      minuteHandRotation: minutes * 360,
+      minuteHandRotation: ((minutes * 360) + (seconds * 6)),
       hourHandRotation: ((this.getCurrentHour() / 12 * 360) + (360 / 12 * minutes))
     });
   },
