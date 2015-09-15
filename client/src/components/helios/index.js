@@ -55,6 +55,7 @@ module.exports = React.createClass({
     if (this.state.data) {
       return (
         <div className="wrapper">
+          <div className="location-watermark">PVD</div>
           <DateStamp />
           <div className="time"><Clock /></div>
           <div className="weather">
