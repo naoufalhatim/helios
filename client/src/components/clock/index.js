@@ -111,6 +111,9 @@ var Clock = React.createClass({
             <rect x="146.9" y="40" fill={ this.props.secondHandColor } width="10" height="113"/>
             <circle fill="none" stroke={ this.props.secondHandColor } strokeWidth="10" cx="152" cy="34" r="10" />
           </g>
+          <g className="clock-center">
+            <circle fill={ this.props.secondHandColor } width="10" height="10" cx="153" cy="153" r="10" />
+          </g>
         </g>
       </svg>
     );
