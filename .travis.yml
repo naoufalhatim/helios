@@ -1,4 +1,20 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
 script: make test
+before_deploy:
+  - make release
+  - mkdir build
+  - zip -r build/release.zip ./release
+deploy:
+  provider: s3
+  access_key_id: AKIAIS6OFAZKELBGKFHQ
+  secret_access_key:
+    secure: 4nzPoOBZMEyFHfBvXvhnVPLSGH1n3/LtU/ecBsneJF1yY8tQGX1OBKXdGQZlwpBArGRxTpRl/V7peZnYljLGNHvz4593URAx+sjRqB4ASmyrJpz+TIwnDvyf+DeWPdxNGbK+z8vFaw2255dwRyHdnjIzV2wNfGnPpnWGMU+bPe9YjcYy4/mXlz2EmN53QvVgmo8l+epjW9zp+SnRTxTNdaSuDJ+XDd+p0joSFVEJYJNnLN5caqIclvXBY7iSQ07KSG8iQfFhft/WxPDBXKZBb/ntFVnXDYUh0WbvooueZnmy4zGRUEhnGUAYcJ1ZbyrC2P2qZzN/GC/JINfFFy9OoVc/el3g3WvPTehCsCteMbI9Rc4PetaLy/rEuxU1kkF5WXAnWgbEmI+KH5OLdqEMWOWGvAyYLxLksFFSMEZXbSX+2n747c/NooYPyd9kcI6jTad18IrCzqdd4UgJOPgznsdlSdnnQ/6M+AZNZEmkVqLnL+C5poF26Qp2Qb9LaBKbvXneAKdBxvsQ9S9saeoVmCQoOXxDJWpQ/ne3w497uJP9yv/ElEc0v8yF8lpQyuEUw+aZKVwBMivQCzO0/2tBwwNlSZsKcRw9i61YzPJcDM9bB0VCmtghvSshMmvs61aoRi9ca/pg4Svr053NqIfpULfaGXeLGg3EHsU1n22NDq4=
+  bucket: helios-release
+  acl: public_read
+  local_dir: build
+  skip_cleanup: true
+  on:
+    branch: bae/update
+    repo: mojotech/helios

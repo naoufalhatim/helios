@@ -10,13 +10,16 @@ fmt:
 build:
 	@go install helios
 
-release: deps
-	GOARCH=arm GOOS=linux CGO_ENABLED=0 go build -o bin/helios.pi helios
-	GOARCH=amd64 CGOOS=linux CGO_ENABLED=0 go build -o bin/helios.linux helios
-	CGO_ENABLED=0 go build -o bin/helios helios
-
 clean:
 	@go clean -i -r helios/...
+
+release: deps
+ifeq ("$(wildcard $(./bin/gox))", "")
+	@go get github.com/mitchellh/gox
+	@go install github.com/mitchellh/gox
+endif
+	@./bin/gox -build-toolchain -osarch="linux/arm linux/amd64 darwin/amd64"
+	@./bin/gox -osarch="linux/arm linux/amd64 darwin/amd64" -output="./bin/{{.Dir}}_{{.OS}}_{{.Arch}}" helios
 
 test:
 	@go test helios/...
