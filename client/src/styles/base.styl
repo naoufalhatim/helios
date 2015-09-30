@@ -67,11 +67,34 @@ body table.weather-graph td
   width: 20%
   float: left
 
-.time-secondary
-  margin: 50px 10px 0 10px
-  width: 30%
-  padding-bottom: 30%
-  display: inline-block
+.primary-clock
+  margin-bottom: 20px
+
+  svg
+    height: auto
+    width: 100%
+
+.secondary-clocks
+  padding-top: 20px
+
+  div
+    display: inline-block
+    text-align: center;
+    width: 50%
+
+    span
+      color: #999
+
+    &:first-child
+      padding-right: 20px
+
+    &:last-child
+      padding-left: 20px
+
+    svg
+      height: auto
+      margin-bottom: 20px
+      width: 100%
 
 .weather
   width: 80%

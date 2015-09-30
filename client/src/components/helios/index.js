@@ -57,7 +57,19 @@ module.exports = React.createClass({
         <div className="wrapper">
           <div className="location-watermark">PVD</div>
           <DateStamp />
-          <div className="time"><Clock /></div>
+          <div className="time">
+            <div className="primary-clock"><Clock /></div>
+            <div className="secondary-clocks">
+              <div>
+                <Clock hourOffset={ -2 } />
+                <span className='label-primary'>BLDR</span>
+              </div>
+              <div>
+                <Clock />
+                <span className='label-primary'>NYC</span>
+              </div>
+            </div>
+          </div>
           <div className="weather">
             <div className="weather-overview">
               <CurrentConditions data={ this.state.data } />
