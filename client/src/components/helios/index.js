@@ -62,11 +62,11 @@ module.exports = React.createClass({
             <div className="secondary-clocks">
               <div>
                 <Clock hourOffset={ -2 } />
-                <span className='label-primary'>BLDR</span>
+                <span>BLDR</span>
               </div>
               <div>
                 <Clock />
-                <span className='label-primary'>NYC</span>
+                <span>NYC</span>
               </div>
             </div>
           </div>
