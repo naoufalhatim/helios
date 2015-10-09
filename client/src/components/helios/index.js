@@ -99,8 +99,8 @@ module.exports = React.createClass({
                 title={ moment().add(2, "days").format("dddd") }
                 data={ this.state.data.daily.data[2] } />
             </div>
-            <Activity />
           </div>
+          <Activity />
         </div>
       );
     } else {
