@@ -39,7 +39,7 @@ module.exports = React.createClass({
 
   render: function() {
     return (<slack-ping>
-        <span className="channel-name">{ this.state.channel ? "#" + this.state.channel : "" }</span>
+        <span className="channel-name">{ this.state.channel && this.state.pings.length > 0 ? "#" + this.state.channel : "" }</span>
         <ReactCSSTransitionGroup transitionName="message-orbs">
           { this.state.pings.map(function(t) {
             return <div key={ t.time } style={{background: t.color}}></div>;
