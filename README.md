@@ -1,6 +1,8 @@
 # Helios [![Build Status](https://travis-ci.org/mojotech/helios.svg?branch=master)](https://travis-ci.org/mojotech/helios)
 Live weather display powered by Forecast.io
 
+![](https://camo.githubusercontent.com/26360563bb3f56221eaa29df75862a61252cebf2/687474703a2f2f642e70722f692f313455646c2b)
+
 
 ### Developer Resources
 
