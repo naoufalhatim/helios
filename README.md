@@ -3,13 +3,10 @@ Live weather display powered by Forecast.io
 
 ![](https://camo.githubusercontent.com/26360563bb3f56221eaa29df75862a61252cebf2/687474703a2f2f642e70722f692f313455646c2b)
 
+Helios is comprised of a web client and API server:
 
-### Developer Resources
-
-Helios is comprised of a client and API:
-
-* [API Server](api/README.md)
-* [Web Client](client/README.md)
+* [API server](api/README.md)
+* [Web client](client/README.md)
 
 
 ### Release
