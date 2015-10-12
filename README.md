@@ -29,3 +29,24 @@ prompt for the pi's password several times unless your public key is on the pi r
 
     `make deploy`
 
+
+### Working with the PI
+
+Sometimes it's necessary to run commands manually on the pi.
+
+SSH into the pi.
+
+  `ssh pi@frontdoor.local`
+
+Restart the helios service:
+
+  `sudo systemctl restart helios.service`
+
+Turn the projector on and off:
+
+  `echo "on 0" | cec-client -s` #on
+  `echo "standby 0" | cec-client -s` #off
+
+Add a developer's public key for deploy commands:
+
+  `gh-auth add --users=<github_username>`
