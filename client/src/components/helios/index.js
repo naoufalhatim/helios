@@ -35,7 +35,7 @@ module.exports = React.createClass({
         <div className="location-watermark">PVD</div>
         <DateStamp />
         <div className="time">
-          <div className="primary-clock"><Clock /></div>
+          <div className="primary-clock"><Clock width="300" height="300" /></div>
           <div className="secondary-clocks">
             <div>
               <Clock hourOffset={ -2 } />
