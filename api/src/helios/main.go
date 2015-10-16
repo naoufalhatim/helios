@@ -1,7 +1,7 @@
 package main
 
 import (
-	"flag"
+	"fmt"
 	"helios/cors"
 	"helios/github"
 	"helios/helios"
@@ -9,22 +9,30 @@ import (
 	"helios/static"
 	"helios/weather"
 	"os"
+	"path/filepath"
 
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/spf13/viper"
 )
 
-var port string
-
 func main() {
-	// Initialize command line args
-	flag.StringVar(&port, "port", "8989", "Port to run the server on")
+	// Get current binary path
+	binPath, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-	// Use env variables if they are defined
-	if len(os.Getenv("PORT")) > 0 {
-		port = os.Getenv("PORT")
+	// Initialize Config
+	viper.SetConfigName("config")
+	viper.AddConfigPath("./")
+	viper.AddConfigPath(binPath)
+	viper.AddConfigPath("$HOME/.helios")
+	err := viper.ReadInConfig()
+
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	flag.Parse()
+	viper.SetDefault("port", "8989")
+
+	port := viper.GetString("port")
 
 	h := helios.New()
 
