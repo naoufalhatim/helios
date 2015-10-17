@@ -20,44 +20,51 @@ func main() {
 	// Get current binary path
 	binPath, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 
-	// Initialize Config
+	// Viper settings
 	viper.SupportedExts = []string{"json"}
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./")
-	viper.AddConfigPath(binPath)
-	viper.AddConfigPath("$HOME/.helios")
-	err := viper.ReadInConfig()
 
+	// Initialize Config
+	config := viper.New()
+	config.SetConfigName("config")
+	config.AddConfigPath("./")
+	config.AddConfigPath(binPath)
+	config.AddConfigPath("$HOME/.helios")
+
+	// Read config file
+	err := config.ReadInConfig()
 	if err != nil {
 		log.Fatalln("No valid config.json file found found.")
 		os.Exit(1)
 	}
 
 	// Set Config Defaults
-	viper.SetDefault("port", "8989")
+	config.SetDefault("port", "8989")
 
+	// Initialize Helios
 	h := helios.New()
+	h.SetConfig(config)
 
 	// Register http handler for sending the client config
 	h.HTTPEngine.GET("/config", func(c *gin.Context) {
-		c.JSON(200, viper.GetStringMap("client"))
+		c.JSON(200, config.GetStringMap("client"))
 	})
 
+	// Register Services
 	h.Use("cors", cors.Service())
 	h.Use("static", static.Service())
 
-	if viper.IsSet("forecastio.apiKey") {
+	if config.IsSet("forecastio.apiKey") {
 		h.Use("weather", weather.Service())
 	}
 
-	if viper.IsSet("github.apiKey") && viper.IsSet("github.apiSecret") {
+	if config.IsSet("github.apiKey") && config.IsSet("github.apiSecret") {
 		h.Use("github", github.Service())
 	}
 
-	if viper.IsSet("slack.apiKey") {
+	if config.IsSet("slack.apiKey") {
 		h.Use("slack", slack.Service())
 	}
 
-	// Initialize helios
-	h.Run(viper.GetString("port"))
+	// Start helios
+	h.Run(config.GetString("port"))
 }

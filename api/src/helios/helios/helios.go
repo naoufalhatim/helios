@@ -6,12 +6,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/googollee/go-socket.io"
+	"github.com/spf13/viper"
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
 type Engine struct {
 	HTTPEngine *gin.Engine
 	Socket     *socketio.Server
+	Config     *viper.Viper
 	services   []Service
 	log.Logger
 }
@@ -39,6 +41,10 @@ func New() *Engine {
 
 func (h *Engine) Use(name string, mw ServiceHandler) {
 	h.services = append(h.services, Service{name, mw})
+}
+
+func (h *Engine) SetConfig(v *viper.Viper) {
+	h.Config = v
 }
 
 func (h *Engine) Run(port string) {
