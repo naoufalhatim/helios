@@ -2,9 +2,9 @@ package weather
 
 import (
 	"encoding/json"
+	"fmt"
 	"helios/helios"
 	"net/http"
-	"os"
 	"time"
 
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -15,19 +15,20 @@ var WeatherChan chan helios.Message
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
-		apiURL := os.Getenv("WEATHER_API")
-
 		WeatherChan = h.NewBroadcastChannel("weather", true)
 
-		go initWeatherFetch(apiURL)
+		go initWeatherFetch(h)
 
 		return nil
 	}
 }
 
-func initWeatherFetch(apiURL string) {
+func initWeatherFetch(h *helios.Engine) {
+	apiURL := "https://api.forecast.io/forecast/%s/41.828664,-71.392759"
+	apiKey := h.Config.GetString("forecastio.apiKey")
+
 	for {
-		weather, err := getWeather(apiURL)
+		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey))
 		if err != nil {
 			WeatherChan <- helios.NewError("Failed to fetch latest weather")
 		} else {

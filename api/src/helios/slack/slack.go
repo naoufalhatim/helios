@@ -2,7 +2,6 @@ package slack
 
 import (
 	"helios/helios"
-	"os"
 	"regexp"
 	"time"
 
@@ -26,7 +25,7 @@ func Service() helios.ServiceHandler {
 		MessageChann = h.NewBroadcastChannel("slack", true)
 		CommandChann = h.NewBroadcastChannel("command", false)
 
-		err := initSlackRTM()
+		err := initSlackRTM(h)
 		if err != nil {
 			return err
 		}
@@ -35,8 +34,8 @@ func Service() helios.ServiceHandler {
 	}
 }
 
-func initSlackRTM() error {
-	token := os.Getenv("SLACK_API")
+func initSlackRTM(h *helios.Engine) error {
+	token := h.Config.GetString("slack.apiKey")
 
 	chReceiver := make(chan slack.SlackEvent)
 
@@ -71,12 +70,12 @@ func initSlackRTM() error {
 
 	go rtm.HandleIncomingEvents(chReceiver)
 	go rtm.Keepalive(20 * time.Second)
-	go messageHandler(api, chReceiver)
+	go messageHandler(api, chReceiver, h)
 
 	return nil
 }
 
-func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
+func messageHandler(api *slack.Slack, c chan slack.SlackEvent, h *helios.Engine) {
 	for {
 		select {
 		case msg := <-c:
@@ -102,7 +101,8 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent) {
 				// Validate that user id exists
 				if u, ok := Users[match[1]]; ok {
 					// Commands can only be sent to the defined name and a valid bot
-					if u.Name == os.Getenv("SLACK_BOT_NAME") && u.IsBot {
+					botName := h.Config.GetString("slack.botName")
+					if u.Name == botName && u.IsBot {
 						args := []string{}
 
 						// If we have more than the username and command then process the rest as args

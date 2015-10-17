@@ -42,8 +42,8 @@ func loadUsersCSV() error {
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
-		githubKey := os.Getenv("GITHUB_KEY")
-		githubSecret := os.Getenv("GITHUB_SECRET")
+		githubKey := h.Config.GetString("github.apiKey")
+		githubSecret := h.Config.GetString("github.apiSecret")
 
 		// Set the initial last event time to now
 		LastEvent.EventTime = time.Now()
