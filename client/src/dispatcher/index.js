@@ -17,6 +17,13 @@ class AppDispatcher extends Dispatcher {
     });
   }
 
+  handleApiAction(action) {
+    this.dispatch({
+      source: "API_ACTION",
+      action: action
+    });
+  }
+
   registerIfType(type, cb) {
     this.register((payload) => {
       var action = payload.action;
