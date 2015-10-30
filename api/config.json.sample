@@ -1,0 +1,25 @@
+{
+  "port": 8989,
+  "enableCors": true,
+  "publicDir": "public",
+
+  "forecastio": {
+    "apiKey": "",
+    "lat": 41.828664,
+    "long": -71.392759
+  },
+
+  "github": {
+    "apiKey": "",
+    "apiSecret": ""
+  },
+
+  "slack": {
+    "apiKey": "",
+    "botName": "heliobot"
+  },
+
+  "client": {
+    "watermark": "PVD"
+  }
+}
