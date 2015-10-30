@@ -8,6 +8,8 @@ Helios is comprised of a web client and API server:
 * [API server](api/README.md)
 * [Web client](client/README.md)
 
+Note: The API server is not necessary to run when working on the client.
+A mock server will be spun up automatically if an API server is not run.
 
 ### Release
 
