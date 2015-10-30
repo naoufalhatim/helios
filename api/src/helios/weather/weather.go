@@ -24,11 +24,13 @@ func Service() helios.ServiceHandler {
 }
 
 func initWeatherFetch(h *helios.Engine) {
-	apiURL := "https://api.forecast.io/forecast/%s/41.828664,-71.392759"
+	apiURL := "https://api.forecast.io/forecast/%s/%s,%s"
 	apiKey := h.Config.GetString("forecastio.apiKey")
+	lat := h.Config.GetString("forecastio.lat")
+	long := h.Config.GetString("forecastio.long")
 
 	for {
-		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey))
+		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey, lat, long))
 		if err != nil {
 			WeatherChan <- helios.NewError("Failed to fetch latest weather")
 		} else {
