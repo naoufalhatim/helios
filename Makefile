@@ -14,7 +14,7 @@ release: deps
 	@cd client && npm run build
 	@mkdir -p $(RELEASE_FOLDER)
 	@cp -rf api/bin/helios* client/public $(RELEASE_FOLDER)
-	@cp -rf api/.env.sample $(RELEASE_FOLDER)/.env.sample
+	@cp -rf api/config.json.sample $(RELEASE_FOLDER)/config.json.sample
 	@echo "Finished Release"
 
 test: deps

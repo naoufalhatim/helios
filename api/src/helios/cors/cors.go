@@ -9,7 +9,10 @@ import (
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
-		h.HTTPEngine.Use(cors.Middleware(cors.Options{AllowCredentials: true}))
+		if h.Config.GetBool("enableCors") {
+			h.Info("Enabling CORS Service")
+			h.HTTPEngine.Use(cors.Middleware(cors.Options{AllowCredentials: true}))
+		}
 
 		return nil
 	}

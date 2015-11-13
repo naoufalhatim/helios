@@ -2,10 +2,10 @@
 
 ### Setup
 
-The Helios server will automatically load `./.env` into the environment variable.
-To set up `.env` for local development, run the following and modify `.env`
+The Helios server will automatically load `config.json` from any of the following locations: `./config.json`, `~/.helios/config.json`, `<binpath>/config.json`.
+To set up `config.json` for local development, run the following and modify `config.json`
 
-`cp .env.sample .env`
+`cp config.json.sample config.json`
 
 To download the server dependencies:
 

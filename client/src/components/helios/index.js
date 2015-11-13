@@ -4,14 +4,35 @@ import Clock from "../clock";
 import DateStamp from "../date-stamp";
 import Activity from "../activity";
 import Weather from "../weather";
+import $ from "jquery";
 
 import AppDispatcher from "../../dispatcher";
 
+const CONFIG_DID_LOAD = "CONFIG_DID_LOAD";
+
 module.exports = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
+
   componentDidMount: function() {
+    $.get("/config", (result) => {
+      AppDispatcher.handleApiAction({
+        type: CONFIG_DID_LOAD,
+        data: result
+      });
+    });
+
     this.commandDispatchToken = AppDispatcher.registerIfType("command", (payload) => {
       var action = payload.action;
       this.receiveCommand(action.data);
+    });
+
+    this.configDispatchToken = AppDispatcher.register((payload) => {
+      let action = payload.action;
+      if (action.type === CONFIG_DID_LOAD) {
+        this.receiveConfig(action.data);
+      }
     });
   },
 
@@ -25,14 +46,19 @@ module.exports = React.createClass({
     }
   },
 
+  receiveConfig: function(data) {
+    this.setState(data);
+  },
+
   componentDidUnmount: function() {
     AppDispatcher.unregister(this.commandDispatchToken);
+    AppDispatcher.unregister(this.configDispatchToken);
   },
 
   render: function() {
     return (
       <div className="wrapper">
-        <div className="location-watermark">PVD</div>
+        <div className="location-watermark">{this.state.watermark}</div>
         <DateStamp />
         <div className="time">
           <div className="primary-clock"><Clock width="300" height="300" /></div>
