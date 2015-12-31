@@ -20,6 +20,10 @@
   },
 
   "client": {
-    "watermark": "PVD"
-  }
+    "watermark": "PVD",
+    "firstClockLabel": "BLDR",
+    "firstClockOffset": -2,
+    "secondClockLabel": "NYC",
+    "secondClockOffset": 0
+  },
 }
