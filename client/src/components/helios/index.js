@@ -64,12 +64,12 @@ module.exports = React.createClass({
           <div className="primary-clock"><Clock width="300" height="300" /></div>
           <div className="secondary-clocks">
             <div>
-              <Clock hourOffset={ -2 } />
-              <span>BLDR</span>
+              <Clock hourOffset={ this.state.firstClockOffset } />
+              <span>{ this.state.firstClockLabel }</span>
             </div>
             <div>
-              <Clock />
-              <span>NYC</span>
+              <Clock hourOffset={ this.state.secondClockOffset } />
+              <span>{ this.state.secondClockLabel }</span>
             </div>
           </div>
         </div>
