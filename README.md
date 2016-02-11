@@ -22,6 +22,16 @@ server binary and static assets.
 
 To deploy to the internal instance of helios, run the task while on the same network as Helios is connected to.
 
+**IMPORTANT** If you need to restart your Pi, be sure to reboot the helios service once the current time
+is available. This is required for slack functionality to work correctly.
+
+```bash
+ssh pi@frontdoor.local
+sudo systemctl restart helios.service
+```
+
+This will be fixed in future versions.
+
 ### Working with the PI
 
 Sometimes it's necessary to run commands manually on the pi.
