@@ -2,6 +2,7 @@
 Description=A pluggable live display
 
 [Service]
+Environment="GIN_MODE=release"
 ExecStart=/opt/helios/helios.pi
 WorkingDirectory=/opt/helios
 Restart=always
