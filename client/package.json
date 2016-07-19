@@ -51,12 +51,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joelhawksley/helios.git"
+    "url": "https://github.com/mojotech/helios.git"
   },
   "author": "Joel Hawksley",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joelhawksley/helios/issues"
+    "url": "https://github.com/mojotech/helios/issues"
   },
-  "homepage": "https://github.com/joelhawksley/helios"
+  "homepage": "https://github.com/mojotech/helios"
 }
