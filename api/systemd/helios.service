@@ -1,0 +1,12 @@
+[Unit]
+Description=A pluggable live display
+
+[Service]
+Environment="GIN_MODE=release"
+ExecStart=/opt/helios/helios.pi
+WorkingDirectory=/opt/helios
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -14,7 +14,7 @@
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
     "babel-core": "^5.4.7",
-    "babel-eslint": "^3.1.11",
+    "babel-eslint": "^6.1.2",
     "babel-loader": "^5.1.3",
     "chalk": "^1.1.0",
     "css-loader": "^0.14.4",
@@ -51,12 +51,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joelhawksley/helios.git"
+    "url": "https://github.com/mojotech/helios.git"
   },
   "author": "Joel Hawksley",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/joelhawksley/helios/issues"
+    "url": "https://github.com/mojotech/helios/issues"
   },
-  "homepage": "https://github.com/joelhawksley/helios"
+  "homepage": "https://github.com/mojotech/helios"
 }
