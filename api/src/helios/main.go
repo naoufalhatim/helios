@@ -33,7 +33,7 @@ func main() {
 	// Read config file
 	err := config.ReadInConfig()
 	if err != nil {
-		log.Fatalln("No valid config.json file found found.")
+		log.Fatalln("No valid config.json file found.", err)
 		os.Exit(1)
 	}
 
