@@ -71,7 +71,7 @@ function proxyServerInit() {
   var server = http.createServer(function (req, res) {
     var staticExtensions = /\.(html|css|js|png|jpg|jpeg|gif|ico|xml|rss|txt|eot|svg|ttf|woff|cur|woff2|map)\??/.test(req.url);
     var indexPage = req.url === '/';
-    var webpackSocket = /^\/socket.io/.test(req.url);
+    var webpackSocket = /^\/sockjs-node/.test(req.url);
 
     if (staticExtensions || indexPage || webpackSocket) {
       proxyWeb.web(req, res);
@@ -84,7 +84,7 @@ function proxyServerInit() {
 
   // Listen to the `upgrade` event and proxy the socket
   server.on('upgrade', function (req, socket, head) {
-    var webpackSocket = /^\/socket.io/.test(req.url);
+    var webpackSocket = /^\/sockjs-node/.test(req.url);
     if (webpackSocket) {
       proxyWeb.ws(req, socket, head);
     } else if (!useFallbackServer) {
