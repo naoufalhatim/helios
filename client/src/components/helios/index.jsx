@@ -10,12 +10,16 @@ import AppDispatcher from "../../dispatcher";
 
 const CONFIG_DID_LOAD = "CONFIG_DID_LOAD";
 
-module.exports = React.createClass({
-  getInitialState: function() {
-    return {};
-  },
+class Helios extends React.Component {
+  constructor(props) {
+    super(props);
 
-  componentDidMount: function() {
+    this.receiveConfig = this.receiveConfig.bind(this);
+
+    this.state = {};
+  }
+
+  componentDidMount() {
     $.get("/config", (result) => {
       AppDispatcher.handleApiAction({
         type: CONFIG_DID_LOAD,
@@ -34,9 +38,9 @@ module.exports = React.createClass({
         this.receiveConfig(action.data);
       }
     });
-  },
+  }
 
-  receiveCommand: function(data) {
+  receiveCommand(data) {
     // Top level command listeners
     switch (data.name) {
       case "refresh":
@@ -44,32 +48,43 @@ module.exports = React.createClass({
         location.reload();
         break;
     }
-  },
+  }
 
-  receiveConfig: function(data) {
+  receiveConfig(data) {
     this.setState(data);
-  },
+  }
 
-  componentDidUnmount: function() {
+  componentDidUnmount() {
     AppDispatcher.unregister(this.commandDispatchToken);
     AppDispatcher.unregister(this.configDispatchToken);
-  },
+  }
 
-  render: function() {
+  render() {
+    const {
+      watermark,
+      firstClockOffset,
+      firstClockLabel,
+      secondClockOffset,
+      secondClockLabel
+    } = this.state;
     return (
       <div className="wrapper">
-        <div className="location-watermark">{this.state.watermark}</div>
+        <div className="location-watermark">
+          {watermark}
+        </div>
         <DateStamp />
         <div className="time">
-          <div className="primary-clock"><Clock width="300" height="300" /></div>
+          <div className="primary-clock">
+            <Clock width="300" height="300" />
+          </div>
           <div className="secondary-clocks">
             <div>
-              <Clock hourOffset={ this.state.firstClockOffset } />
-              <span>{ this.state.firstClockLabel }</span>
+              <Clock hourOffset={firstClockOffset} />
+              <span>{firstClockLabel}</span>
             </div>
             <div>
-              <Clock hourOffset={ this.state.secondClockOffset } />
-              <span>{ this.state.secondClockLabel }</span>
+              <Clock hourOffset={secondClockOffset} />
+              <span>{secondClockLabel}</span>
             </div>
           </div>
         </div>
@@ -78,4 +93,6 @@ module.exports = React.createClass({
       </div>
     );
   }
-});
+}
+
+export default Helios;
