@@ -10,20 +10,24 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
-var WeatherChan chan helios.Message
+type WeatherService struct {
+	WeatherChan chan helios.Message
+}
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
-		WeatherChan = h.NewBroadcastChannel("weather", true)
+		w := &WeatherService{
+			WeatherChan: h.NewBroadcastChannel("weather", true),
+		}
 
-		go initWeatherFetch(h)
+		go initWeatherFetch(h, w)
 
 		return nil
 	}
 }
 
-func initWeatherFetch(h *helios.Engine) {
+func initWeatherFetch(h *helios.Engine, w *WeatherService) {
 	apiURL := "https://api.forecast.io/forecast/%s/%s,%s"
 	apiKey := h.Config.GetString("forecastio.apiKey")
 	lat := h.Config.GetString("forecastio.lat")
@@ -32,9 +36,9 @@ func initWeatherFetch(h *helios.Engine) {
 	for {
 		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey, lat, long))
 		if err != nil {
-			WeatherChan <- helios.NewError("Failed to fetch latest weather")
+			w.WeatherChan <- helios.NewError("Failed to fetch latest weather")
 		} else {
-			WeatherChan <- helios.NewMessage(weather)
+			w.WeatherChan <- helios.NewMessage(weather)
 		}
 
 		// Timeout for 120 seconds before next request

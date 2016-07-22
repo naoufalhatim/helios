@@ -12,11 +12,15 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
-var LastEvent Event
-var Users = make(map[string]User)
-var EventChan chan helios.Message
+type GithubService struct {
+	LastEvent    Event
+	Users        map[string]User
+	EventChan    chan helios.Message
+	githubKey    string
+	githubSecret string
+}
 
-func loadUsersCSV() error {
+func loadUsersCSV(g *GithubService) error {
 	// Open and parse existing users from the uat file
 	usersFile, err := os.OpenFile("users.csv", os.O_RDWR|os.O_CREATE, 0664)
 	if err != nil {
@@ -34,7 +38,7 @@ func loadUsersCSV() error {
 
 	for _, row := range rawCSV {
 		u := User{row[0], row[1]}
-		Users[u.Username] = u
+		g.Users[u.Username] = u
 	}
 
 	return nil
@@ -42,32 +46,33 @@ func loadUsersCSV() error {
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
-		githubKey := h.Config.GetString("github.apiKey")
-		githubSecret := h.Config.GetString("github.apiSecret")
+		g := &GithubService{
+			Users:        make(map[string]User),
+			EventChan:    h.NewBroadcastChannel("github", true),
+			githubKey:    h.Config.GetString("github.apiKey"),
+			githubSecret: h.Config.GetString("github.apiSecret"),
+		}
 
 		// Set the initial last event time to now
-		LastEvent.EventTime = time.Now()
+		g.LastEvent.EventTime = time.Now()
 
 		// Setup Goth Authentication
 		goth.UseProviders(
-			githubProvider.New(githubKey, githubSecret, fmt.Sprintf("http://localhost:%s/auth/github/callback", h.Config.GetString("port")), "repo", "user:email"),
+			githubProvider.New(g.githubKey, g.githubSecret, fmt.Sprintf("http://localhost:%s/auth/github/callback", h.Config.GetString("port")), "repo", "user:email"),
 		)
 
 		// Setup github auth routes
-		h.HTTPEngine.GET("/auth/github/callback", providerCallback)
+		h.HTTPEngine.GET("/auth/github/callback", providerCallback(g))
 		h.HTTPEngine.GET("/auth/github", providerAuth)
 
-		// Start socket broadcast channel and save the channel to a global
-		EventChan = h.NewBroadcastChannel("github", true)
-
 		// Load registered users
-		err := loadUsersCSV()
+		err := loadUsersCSV(g)
 		if err != nil {
 			return err
 		}
 
 		// Start Existing Users
-		startExistingUsers()
+		startExistingUsers(g)
 
 		return nil
 

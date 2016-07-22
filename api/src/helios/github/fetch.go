@@ -11,18 +11,18 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
-func startExistingUsers() {
+func startExistingUsers(g *GithubService) {
 	fmt.Println("Starting go routines")
-	for _, u := range Users {
-		startUser(u)
+	for _, u := range g.Users {
+		startUser(u, g)
 	}
 }
 
-func startUser(u User) {
-	go userRoutine(u, EventChan)
+func startUser(u User, g *GithubService) {
+	go userRoutine(u, g)
 }
 
-func userRoutine(u User, c chan<- helios.Message) error {
+func userRoutine(u User, g *GithubService) error {
 
 	ts := tokenSource{
 		&oauth2.Token{
@@ -41,23 +41,23 @@ func userRoutine(u User, c chan<- helios.Message) error {
 		events, resp, err := client.Activity.ListEventsPerformedByUser(u.Username, false, &opts)
 		if err != nil {
 			log.Warn("Problem retrieving events for user", "username", u.Username, "error", err.Error())
-			c <- helios.NewError("Problem retrieving events")
+			g.EventChan <- helios.NewError("Problem retrieving events")
 		}
 
-		newEventTime := LastEvent.EventTime
+		newEventTime := g.LastEvent.EventTime
 
 		if len(events) > 0 {
 			newEventTime = *events[0].CreatedAt
 		}
 
 		// read in last event and compare to new event time
-		LastEvent.Lock()
-		dur := LastEvent.EventTime.Sub(newEventTime)
+		g.LastEvent.Lock()
+		dur := g.LastEvent.EventTime.Sub(newEventTime)
 		if dur.Seconds() > 0.0 {
-			LastEvent.EventTime = newEventTime
-			c <- helios.NewMessage(events[0])
+			g.LastEvent.EventTime = newEventTime
+			g.EventChan <- helios.NewMessage(events[0])
 		}
-		LastEvent.Unlock()
+		g.LastEvent.Unlock()
 
 		// Wait as long as the X-Poll-Interval header says to
 		interval, err := strconv.ParseInt(resp.Header["X-Poll-Interval"][0], 10, 8)
