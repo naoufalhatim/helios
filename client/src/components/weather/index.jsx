@@ -9,45 +9,49 @@ import Temperature from "../temperature";
 
 import AppDispatcher from "../../dispatcher";
 
-module.exports = React.createClass({
-  getInitialState: function() {
-    return {};
-  },
+class Weather extends React.Component {
+  constructor(props) {
+    super(props);
 
-  componentDidMount: function() {
+    this.state = {};
+  }
+
+  componentDidMount() {
     this.dispatchToken = AppDispatcher.registerIfType("weather", (payload) => {
       var action = payload.action;
       this.receiveWeather(action.data);
     });
-  },
+  }
 
-  receiveWeather: function(data) {
+  receiveWeather(data) {
     this.setState({
       data: data,
       updateMessage: "Weather updated: " + moment().format("h:mm:ss A")
     });
-  },
+  }
 
-  componentDidUnmount: function() {
+  componentDidUnmount() {
     AppDispatcher.unregister(this.dispatchToken);
-  },
+  }
 
-  render: function() {
-    if (this.state.data) {
+  render() {
+    const {data} = this.state;
+
+    if (data) {
       return (
         <div className="weather">
           <div className="weather-overview">
-            <CurrentConditions data={ this.state.data } />
+            <CurrentConditions data={data} />
             <ForecastHours
-              hours={ this.state.data.hourly.data }
+              hours={data.hourly.data}
               className="hourly-breakdown" />
           </div>
           <div className="weather-overview">
             <h1 className="current-temp current">
-              <Temperature value={ this.state.data.currently.temperature } />
+              <Temperature value={data.currently.temperature} />
             </h1>
             <HourlyIcons
-              hours={ this.state.data.hourly.data }
+              hours={data.hourly.data}
               className="hourly-breakdown" />
           </div>
           <div className="weather-forecast">
@@ -73,4 +77,6 @@ module.exports = React.createClass({
         );
     }
   }
-});
+}
+
+export default Weather;
