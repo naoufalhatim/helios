@@ -51,7 +51,6 @@ module.exports = {
       template: "src/index.html",
       filename: "../index.html",
       inject: true,
-      minify: true,
       hash: true
     })
   ],
