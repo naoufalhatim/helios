@@ -1,13 +1,12 @@
 import React from "react";
+import moment from "moment";
 import "./clock.styl";
 
 var Clock = React.createClass({
   getInitialState: function() {
-    var d = new Date();
-
     return {
-      secondHandRotation: d.getSeconds() / 60 * 360,
-      minuteHandRotation: d.getMinutes() / 60
+      secondHandRotation: moment().seconds() / 60 * 360,
+      minuteHandRotation: moment().minutes() / 60
     };
   },
 
@@ -34,9 +33,8 @@ var Clock = React.createClass({
   },
 
   setTime: function() {
-    var d = new Date();
-    var minutes = (d.getMinutes() / 60);
-    var seconds = (d.getSeconds() / 60);
+    var minutes = (moment().minutes() / 60);
+    var seconds = (moment().seconds() / 60);
 
     this.setState({
       secondHandRotation: this.state.secondHandRotation + 6,
@@ -120,8 +118,7 @@ var Clock = React.createClass({
   },
 
   getCurrentHour: function() {
-    var d = new Date();
-    var currentHour = (this.props.hourOffset + d.getHours());
+    var currentHour = (this.props.hourOffset + moment().hours());
 
     return currentHour > 12 ? currentHour - 12 : currentHour;
   }
