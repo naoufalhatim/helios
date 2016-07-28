@@ -8,4 +8,4 @@ import "styles/main.styl";
 // Setup socket connection
 SocketService.connect();
 
-React.render(<Helios/>, document.getElementById("helios"));
+React.render(<Helios />, document.getElementById("helios"));

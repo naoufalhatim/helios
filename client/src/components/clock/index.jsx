@@ -2,37 +2,35 @@ import React from "react";
 import moment from "moment";
 import "./clock.styl";
 
-var Clock = React.createClass({
-  getInitialState: function() {
-    return {
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.getCurrentHour = this.getCurrentHour.bind(this);
+    this.setTime = this.setTime.bind(this);
+
+    this.state = {
       secondHandRotation: moment().seconds() / 60 * 360,
       minuteHandRotation: moment().minutes() / 60
     };
-  },
+  }
 
-  getDefaultProps: function() {
-    return {
-      hourOffset: 0,
-      mainFaceMarksColor: "#FFFFFF",
-      secondaryFaceMarksColor: "#FFFFFF",
-      secondHandColor: "#EF4136",
-      minuteHandColor: "#FFFFFF",
-      hourHandColor: "#FFFFFF",
-      width: 600,
-      height: 600
-    };
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     this.setTime();
     this.setTimeInterval = setInterval(this.setTime, 1000);
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     clearInterval(this.setTimeInterval);
-  },
+  }
 
-  setTime: function() {
+  getCurrentHour() {
+    var currentHour = (this.props.hourOffset + moment().hours());
+
+    return currentHour > 12 ? currentHour - 12 : currentHour;
+  }
+
+  setTime() {
     var minutes = (moment().minutes() / 60);
     var seconds = (moment().seconds() / 60);
 
@@ -41,20 +39,30 @@ var Clock = React.createClass({
       minuteHandRotation: ((minutes * 360) + (seconds * 6)),
       hourHandRotation: ((this.getCurrentHour() / 12 * 360) + (360 / 12 * minutes))
     });
-  },
+  }
 
-  render: function() {
+  render() {
+    const {
+      width,
+      height,
+      mainFaceMarksColor,
+      secondaryFaceMarksColor,
+      hourHandColor,
+      minuteHandColor,
+      secondHandColor
+    } = this.props;
+
     return (
-      <svg viewBox="0 0 300 300" x="0px" y="0px" width={ this.props.width } height={ this.props.height }>
+      <svg viewBox="0 0 300 300" x="0px" y="0px" width={width} height={height}>
         <g>
-          <g style={{ fill: this.props.mainFaceMarksColor }}>
+          <g style={{fill: mainFaceMarksColor}}>
             <rect width="10" height="30" x="146.9" />
             <rect width="30" height="10" y="147" />
             <rect width="10" height="30" x="146.9" y="273.8" />
             <rect width="30" height="10" x="273.8" y="147" />
           </g>
 
-          <g style={{ fill: this.props.secondaryFaceMarksColor }}>
+          <g style={{fill: secondaryFaceMarksColor}}>
             <rect
               transform="matrix(-0.8809 0.4733 -0.4733 -0.8809 549.1896 424.4109)"
               x="216.2" y="276.3"
@@ -90,38 +98,55 @@ var Clock = React.createClass({
           </g>
 
           <rect
-            style={{ WebkitTransform: "rotate(" + this.state.hourHandRotation + "deg)" }}
+            style={{WebkitTransform: "rotate(" + this.state.hourHandRotation + "deg)"}}
             className="clock-hand"
             x="146.9"
             y="70"
-            fill={ this.props.hourHandColor }
+            fill={hourHandColor}
             width="10"
             height="83"/>
           <rect
-            style={{ WebkitTransform: "rotate(" + this.state.minuteHandRotation + "deg)" }}
+            style={{WebkitTransform: "rotate(" + this.state.minuteHandRotation + "deg)"}}
             className="clock-hand"
             x="146.9"
             y="40"
-            fill={ this.props.minuteHandColor }
+            fill={minuteHandColor}
             width="10"
             height="113" />
-          <g className="clock-hand" style={{ WebkitTransform: "rotate(" + this.state.secondHandRotation + "deg)" }}>
-            <rect x="146.9" y="40" fill={ this.props.secondHandColor } width="10" height="113"/>
-            <circle fill="none" stroke={ this.props.secondHandColor } strokeWidth="10" cx="152" cy="34" r="10" />
+          <g className="clock-hand" style={{WebkitTransform: "rotate(" + this.state.secondHandRotation + "deg)"}}>
+            <rect x="146.9" y="40" fill={secondHandColor} width="10" height="113"/>
+            <circle fill="none" stroke={secondHandColor} strokeWidth="10" cx="152" cy="34" r="10" />
           </g>
           <g className="clock-center">
-            <circle fill={ this.props.secondHandColor } width="10" height="10" cx="153" cy="153" r="10" />
+            <circle fill={secondHandColor} width="10" height="10" cx="153" cy="153" r="10" />
           </g>
         </g>
       </svg>
     );
-  },
-
-  getCurrentHour: function() {
-    var currentHour = (this.props.hourOffset + moment().hours());
-
-    return currentHour > 12 ? currentHour - 12 : currentHour;
   }
-});
+}
 
-module.exports = Clock;
+
+Clock.propTypes = {
+  hourOffset: React.PropTypes.number,
+  mainFaceMarksColor: React.PropTypes.string,
+  secondaryFaceMarksColor: React.PropTypes.string,
+  secondHandColor: React.PropTypes.string,
+  minuteHandColor: React.PropTypes.string,
+  hourHandColor: React.PropTypes.string,
+  width: React.PropTypes.string,
+  height: React.PropTypes.string
+};
+
+Clock.defaultProps = {
+  hourOffset: 0,
+  mainFaceMarksColor: "#FFFFFF",
+  secondaryFaceMarksColor: "#FFFFFF",
+  secondHandColor: "#EF4136",
+  minuteHandColor: "#FFFFFF",
+  hourHandColor: "#FFFFFF",
+  width: "600",
+  height: "600"
+};
+
+export default Clock;

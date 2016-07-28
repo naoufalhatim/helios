@@ -1,14 +1,16 @@
 import React from "react";
 import SlackPing from "../slack-ping";
 
-module.exports = React.createClass({
-  render: function() {
+class Activity extends React.Component {
+  render() {
     return (
       <div className="activity">
         <div className="activity-slack">
-          <SlackPing></SlackPing>
+          <SlackPing />
         </div>
       </div>
     );
   }
-});
+}
+
+export default Activity;
