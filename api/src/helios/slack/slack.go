@@ -13,19 +13,27 @@ type Command struct {
 	Args []string `json:"args"`
 }
 
-var MessageChann chan helios.Message
-var CommandChann chan helios.Message
-var Users = make(map[string]slack.User)
-var Channels = make(map[string]slack.Channel)
+type SlackService struct {
+	Messages    chan helios.Message
+	Commands    chan helios.Message
+	Users       map[string]slack.User
+	Channels    map[string]slack.Channel
+	slackEvents chan slack.SlackEvent
+}
 
 func Service() helios.ServiceHandler {
 	return func(h *helios.Engine) error {
 
-		// Setup broadcaster and save channel to a global
-		MessageChann = h.NewBroadcastChannel("slack", true)
-		CommandChann = h.NewBroadcastChannel("command", false)
+		var s = &SlackService{
+			Messages: h.NewBroadcastChannel("slack", true),
+			Commands: h.NewBroadcastChannel("command", false),
+			Users:    make(map[string]slack.User),
+			Channels: make(map[string]slack.Channel),
+		}
 
-		err := initSlackRTM(h)
+		// Setup broadcaster and save channel to a global
+
+		err := initSlackRTM(h, s)
 		if err != nil {
 			return err
 		}
@@ -34,10 +42,10 @@ func Service() helios.ServiceHandler {
 	}
 }
 
-func initSlackRTM(h *helios.Engine) error {
+func initSlackRTM(h *helios.Engine, s *SlackService) error {
 	token := h.Config.GetString("slack.apiKey")
 
-	chReceiver := make(chan slack.SlackEvent)
+	s.slackEvents = make(chan slack.SlackEvent)
 
 	api := slack.New(token)
 
@@ -54,7 +62,7 @@ func initSlackRTM(h *helios.Engine) error {
 
 	// Map all users ids to user type
 	for _, u := range users {
-		Users[u.Id] = u
+		s.Users[u.Id] = u
 	}
 
 	// Cache all channels for lookups
@@ -65,30 +73,30 @@ func initSlackRTM(h *helios.Engine) error {
 
 	// Map all channel ids to channel type
 	for _, c := range channels {
-		Channels[c.Id] = c
+		s.Channels[c.Id] = c
 	}
 
-	go rtm.HandleIncomingEvents(chReceiver)
+	go rtm.HandleIncomingEvents(s.slackEvents)
 	go rtm.Keepalive(20 * time.Second)
-	go messageHandler(api, chReceiver, h)
+	go messageHandler(api, s, h)
 
 	return nil
 }
 
-func messageHandler(api *slack.Slack, c chan slack.SlackEvent, h *helios.Engine) {
+func messageHandler(api *slack.Slack, s *SlackService, h *helios.Engine) {
 	for {
 		select {
-		case msg := <-c:
+		case msg := <-s.slackEvents:
 			switch msg.Data.(type) {
 			case *slack.MessageEvent:
 				channelName := ""
 				event := msg.Data.(*slack.MessageEvent)
 
-				if channel, ok := Channels[event.ChannelId]; ok {
+				if channel, ok := s.Channels[event.ChannelId]; ok {
 					channelName = channel.Name
 				}
 
-				MessageChann <- helios.NewMessage(channelName)
+				s.Messages <- helios.NewMessage(channelName)
 
 				// Find only the first mention at the begining of the string
 				re := regexp.MustCompile(`^<@(.*?)>:? (\w+)\s?(.*)?`)
@@ -99,7 +107,7 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent, h *helios.Engine)
 				}
 
 				// Validate that user id exists
-				if u, ok := Users[match[1]]; ok {
+				if u, ok := s.Users[match[1]]; ok {
 					// Commands can only be sent to the defined name and a valid bot
 					botName := h.Config.GetString("slack.botName")
 					if u.Name == botName && u.IsBot {
@@ -117,7 +125,7 @@ func messageHandler(api *slack.Slack, c chan slack.SlackEvent, h *helios.Engine)
 							Args: args,
 						}
 
-						CommandChann <- helios.NewMessage(command)
+						s.Commands <- helios.NewMessage(command)
 					}
 				}
 
