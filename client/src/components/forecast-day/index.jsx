@@ -59,7 +59,7 @@ ForecastDay.propTypes = {
   className: React.PropTypes.string,
   title: React.PropTypes.string,
   dailyData: React.PropTypes.object,
-  alertData: React.PropTypes.object
+  alertData: React.PropTypes.array
 };
 
 
