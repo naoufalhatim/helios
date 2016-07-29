@@ -8,7 +8,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   // Entry point(s) for the bundle
-  entry: ["./src/index.js"],
+  entry: ["./src/index.jsx"],
 
   // Output
   output: {
