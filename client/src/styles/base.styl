@@ -43,7 +43,6 @@ body table.weather-graph td
   right: 0
 
 .wrapper
-  overflow: hidden
   position: relative
   margin-top: 200px
 
@@ -97,48 +96,44 @@ body table.weather-graph td
 .weather
   margin-left 300px
   padding-left: 100px
+  .weather-today
+    margin-bottom: 90px
+    clearfix()
+    .current-forecast
+      width: 33.333333%
+      float: left
+      .current-temp
+        font-size: 200px
+        font-weight: bold
+        line-height: 1em
 
-.weather-overview
-  overflow: hidden
-  margin-bottom: 50px
+    .hourly-forecast
+      width: 66.666666%
+      float: right
+      .hour
+        font-size: 16px
+        width: 12.5%
+        display: inline-block
+        padding-right: 25px
+        vertical-align: top
 
-  .current
-    width: 33.333333%
-    float: left
+        canvas
+          margin-left: -1.4vw
+          margin-bottom: 10px
+          width: 100%
 
-  .current-temp
-    font-size: 200px
-    font-weight: bold
-    line-height: 1em
+  .future-forecast
+    .forecast
+      width: 33.333333%
+      float: left
+      padding-right: 25px
+      font-size: 20px
+      line-height: 30px
+      font-weight: bold
 
-  .hourly-breakdown
-    font-size: 0
-    width: 66.666666%
-    float: left
-
-  .hour
-    font-size: 16px
-    width: 12.5%
-    display: inline-block
-    padding-right: 25px
-    vertical-align: top
-
-    canvas
-      margin-left: -1.4vw
-      margin-bottom: 10px
-      width: 100%
-
-.forecast
-  width: 33.333333%
-  float: left
-  padding-right: 25px
-  font-size: 20px
-  line-height: 30px
-  font-weight: bold
-  
 .alert
   color: #EF4136
-  
+
 .alert-expires
   font-size: 15px
 

@@ -40,21 +40,21 @@ class Weather extends React.Component {
     if (data) {
       return (
         <div className="weather">
-          <div className="weather-overview">
-            <CurrentConditions data={data} />
-            <ForecastHours
-              hours={data.hourly.data}
-              className="hourly-breakdown" />
+          <div className="weather-today">
+            <div className="current-forecast">
+              <CurrentConditions data={data} />
+              <Temperature className='current-temp' value={data.currently.temperature} />
+            </div>
+            <div className="hourly-forecast">
+              <ForecastHours
+                hours={data.hourly.data}
+                className="hourly-breakdown" />
+              <HourlyIcons
+                hours={data.hourly.data}
+                className="hourly-breakdown" />
+            </div>
           </div>
-          <div className="weather-overview">
-            <h1 className="current-temp current">
-              <Temperature value={data.currently.temperature} />
-            </h1>
-            <HourlyIcons
-              hours={data.hourly.data}
-              className="hourly-breakdown" />
-          </div>
-          <div className="weather-forecast">
+          <div className="future-forecast">
             <ForecastDay
               className="forecast"
               title="Today"
