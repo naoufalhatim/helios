@@ -4,7 +4,6 @@ import moment from "moment";
 import CurrentConditions from "../current-conditions";
 import ForecastHours from "../forecast-hours";
 import ForecastDay from "../forecast-day";
-import HourlyIcons from "../hourly-icons";
 import Temperature from "../temperature";
 
 import AppDispatcher from "../../dispatcher";
@@ -47,9 +46,6 @@ class Weather extends React.Component {
             </div>
             <div className="hourly-forecast">
               <ForecastHours
-                hours={data.hourly.data}
-                className="hourly-breakdown" />
-              <HourlyIcons
                 hours={data.hourly.data}
                 className="hourly-breakdown" />
             </div>
