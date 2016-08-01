@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import SocketService from "./services/socket.io";
 import Helios from "./components/helios";
 
@@ -8,4 +9,4 @@ import "styles/main.styl";
 // Setup socket connection
 SocketService.connect();
 
-React.render(<Helios />, document.getElementById("helios"));
+ReactDOM.render(<Helios />, document.getElementById("helios"));
