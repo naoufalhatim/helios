@@ -1,16 +1,18 @@
 {
   "env": {
-    browser: true
+    browser: true,
+    "es6": true
   },
   "globals": {
     "module": true,
   },
   "parser": "babel-eslint",
   "rules": {
+    "react/jsx-uses-react": 1,
     "strict": 0
   },
   "ecmaFeatures": {
-    "jsx": 1
+    "jsx": true
   },
   "plugins": [
     "react"
