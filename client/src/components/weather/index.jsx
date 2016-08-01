@@ -29,7 +29,7 @@ class Weather extends React.Component {
     });
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     AppDispatcher.unregister(this.dispatchToken);
   }
 

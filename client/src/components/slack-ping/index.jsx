@@ -1,8 +1,7 @@
-import React from "react/addons";
+import React from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import AppDispatcher from "../../dispatcher";
 import "./slack.styl";
-
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 class SlackPing extends React.Component {
   constructor(props) {
@@ -44,7 +43,7 @@ class SlackPing extends React.Component {
     setTimeout(() => {this.setState({pings: this.state.pings.slice(1)}); }, 10000);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     AppDispatcher.unregister(this.dispatchToken);
   }
 
@@ -54,7 +53,7 @@ class SlackPing extends React.Component {
         <span className="channel-name">
           {this.state.channel && this.state.pings.length > 0 ? "#" + this.state.channel : ""}
         </span>
-        <ReactCSSTransitionGroup transitionName="message-orbs">
+        <ReactCSSTransitionGroup transitionName="message-orbs" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           {
             this.state.pings.map(function(t) {
               return (

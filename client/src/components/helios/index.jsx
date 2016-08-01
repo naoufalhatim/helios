@@ -54,7 +54,7 @@ class Helios extends React.Component {
     this.setState(data);
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     AppDispatcher.unregister(this.commandDispatchToken);
     AppDispatcher.unregister(this.configDispatchToken);
   }
