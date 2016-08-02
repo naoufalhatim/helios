@@ -1,7 +1,6 @@
 package helios
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +17,7 @@ type Engine struct {
 	log.Logger
 }
 
-type ServiceHandler func(*Engine) error
+type ServiceHandler func(*Engine)
 
 type Service struct {
 	name    string
@@ -62,9 +61,6 @@ func (h *Engine) Run(port string) {
 
 func (h *Engine) startServices() {
 	for _, s := range h.services {
-		err := s.handler(h)
-		if err != nil {
-			h.Warn(fmt.Sprintf("Failed to start service: Error: %s", err), "service", s.name)
-		}
+		s.handler(h)
 	}
 }
