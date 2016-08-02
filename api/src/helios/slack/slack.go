@@ -1,10 +1,12 @@
 package slack
 
 import (
+	"fmt"
 	"helios/helios"
 	"regexp"
 	"time"
 
+	"github.com/cenk/backoff"
 	"gopkg.in/nlopes/slack.v0"
 )
 
@@ -31,16 +33,22 @@ func Service() helios.ServiceHandler {
 			Channels: make(map[string]slack.Channel),
 		}
 
-		// Setup broadcaster and save channel to a global
+		go connectSlackRTM(h, s)
 
-		err := initSlackRTM(h, s)
-		if err != nil {
-			h.Error("Slack service failed to start", "error", err)
-		}
 	}
 }
 
-func initSlackRTM(h *helios.Engine, s *SlackService) error {
+func connectSlackRTM(h *helios.Engine, s *SlackService) {
+	err := backoff.Retry(func() error {
+		err := runSlackRTM(h, s)
+		return err
+	}, backoff.NewExponentialBackOff())
+	if err != nil {
+		s.Messages <- helios.NewError(fmt.Sprintf("Slack service error: %v", err))
+	}
+}
+
+func runSlackRTM(h *helios.Engine, s *SlackService) error {
 	token := h.Config.GetString("slack.apiKey")
 
 	s.slackEvents = make(chan slack.SlackEvent)
