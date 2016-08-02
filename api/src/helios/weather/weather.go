@@ -15,15 +15,13 @@ type WeatherService struct {
 }
 
 func Service() helios.ServiceHandler {
-	return func(h *helios.Engine) error {
+	return func(h *helios.Engine) {
 
 		w := &WeatherService{
 			WeatherChan: h.NewBroadcastChannel("weather", true),
 		}
 
 		go initWeatherFetch(h, w)
-
-		return nil
 	}
 }
 

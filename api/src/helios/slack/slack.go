@@ -22,7 +22,7 @@ type SlackService struct {
 }
 
 func Service() helios.ServiceHandler {
-	return func(h *helios.Engine) error {
+	return func(h *helios.Engine) {
 
 		var s = &SlackService{
 			Messages: h.NewBroadcastChannel("slack", true),
@@ -35,10 +35,8 @@ func Service() helios.ServiceHandler {
 
 		err := initSlackRTM(h, s)
 		if err != nil {
-			return err
+			h.Error("Slack service failed to start", "error", err)
 		}
-
-		return nil
 	}
 }
 

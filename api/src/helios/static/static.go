@@ -7,7 +7,7 @@ import (
 )
 
 func Service() helios.ServiceHandler {
-	return func(h *helios.Engine) error {
+	return func(h *helios.Engine) {
 		publicDir := "public"
 
 		if h.Config.IsSet("publicDir") {
@@ -16,7 +16,5 @@ func Service() helios.ServiceHandler {
 
 		// Setup static file server on HTTPEngine
 		h.HTTPEngine.Use(static.Serve("/", static.LocalFile(publicDir, true)))
-
-		return nil
 	}
 }

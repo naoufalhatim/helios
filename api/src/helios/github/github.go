@@ -45,7 +45,7 @@ func loadUsersCSV(g *GithubService) error {
 }
 
 func Service() helios.ServiceHandler {
-	return func(h *helios.Engine) error {
+	return func(h *helios.Engine) {
 		g := &GithubService{
 			Users:        make(map[string]User),
 			EventChan:    h.NewBroadcastChannel("github", true),
@@ -68,13 +68,10 @@ func Service() helios.ServiceHandler {
 		// Load registered users
 		err := loadUsersCSV(g)
 		if err != nil {
-			return err
+			h.Error("Failed to load users from csv", "error", err)
 		}
 
 		// Start Existing Users
 		startExistingUsers(g)
-
-		return nil
-
 	}
 }
