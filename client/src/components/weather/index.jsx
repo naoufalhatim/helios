@@ -54,16 +54,16 @@ class Weather extends React.Component {
             <ForecastDay
               className="forecast"
               title="Today"
-              dailyData={ this.state.data.daily.data[0] }
-              alertData={ this.state.data.alerts } />
+              forecast={ this.state.data.daily.data[0] }
+              alerts={ this.state.data.alerts } />
             <ForecastDay
               className="forecast"
               title={ moment().add(1, "days").format("dddd") }
-              dailyData={ this.state.data.daily.data[1] } />
+              forecast={ this.state.data.daily.data[1] } />
             <ForecastDay
               className="forecast"
               title={ moment().add(2, "days").format("dddd") }
-              dailyData={ this.state.data.daily.data[2] } />
+              forecast={ this.state.data.daily.data[2] } />
           </div>
         </div>
       );
