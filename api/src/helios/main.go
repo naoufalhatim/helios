@@ -50,8 +50,11 @@ func main() {
 	})
 
 	// Register Services
-	h.Use("cors", cors.Service())
 	h.Use("static", static.Service())
+
+	if config.GetBool("enableCors") {
+		h.Use("cors", cors.Service())
+	}
 
 	if config.IsSet("forecastio.apiKey") {
 		h.Use("weather", weather.Service())
