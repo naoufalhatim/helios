@@ -1,7 +1,6 @@
 package slack
 
 import (
-	"fmt"
 	"helios/helios"
 	"regexp"
 	"time"
@@ -44,7 +43,7 @@ func connectSlackRTM(h *helios.Engine, s *SlackService) {
 		return err
 	}, backoff.NewExponentialBackOff())
 	if err != nil {
-		s.Messages <- helios.NewError(fmt.Sprintf("Slack service error: %v", err))
+		s.Messages <- helios.NewError("Slack service error: %v", err)
 	}
 }
 

@@ -30,9 +30,9 @@ func NewMessage(payload interface{}) Message {
 	}
 }
 
-func NewError(err interface{}) Message {
+func NewError(format string, args ...interface{}) Message {
 	return Message{
-		Error: err,
+		Error: fmt.Sprintf(format, args...),
 	}
 }
 
