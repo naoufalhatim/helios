@@ -58,7 +58,7 @@ func Service() helios.ServiceHandler {
 
 		// Setup Goth Authentication
 		goth.UseProviders(
-			githubProvider.New(g.githubKey, g.githubSecret, fmt.Sprintf("http://localhost:%s/auth/github/callback", h.Config.GetString("port")), "repo", "user:email"),
+			githubProvider.New(g.githubKey, g.githubSecret, fmt.Sprintf("http://%s:%s/auth/github/callback", h.Config.GetString("host"), h.Config.GetString("port")), "repo", "user:email"),
 		)
 
 		// Setup github auth routes
