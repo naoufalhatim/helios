@@ -16,7 +16,7 @@ class ForecastHours extends React.Component {
               <div className='hour' key={hour.time}>
                 <ForecastHour
                   hour={hour} />
-                <div className="weather-skycon">
+                <div className="forecast-skycon">
                   <Skycons
                     color="#fff"
                     icon={hour.icon.toUpperCase().replace(/-/g, "_")}
