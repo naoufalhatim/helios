@@ -2,9 +2,8 @@ package helios
 
 import (
 	"fmt"
-
 	"github.com/googollee/go-socket.io"
-	log "gopkg.in/inconshreveable/log15.v2"
+	"github.com/pkg/errors"
 )
 
 const (
@@ -36,15 +35,13 @@ func NewError(format string, args ...interface{}) Message {
 	}
 }
 
-func initSocket() *socketio.Server {
+func initSocket() (*socketio.Server, error) {
 	server, err := socketio.NewServer(nil)
 	if err != nil {
-		fmt.Println("Failed to start socket server")
-		return nil
+		return nil, errors.Wrap(err, "Failed to start socket server")
 	}
 
 	server.On("connection", func(so socketio.Socket) {
-		fmt.Printf("New socket.io connection: %s", so.Id())
 
 		so.Join(ROOM)
 
@@ -58,11 +55,7 @@ func initSocket() *socketio.Server {
 		})
 	})
 
-	server.On("error", func(so socketio.Socket, err error) {
-		log.Error("Error on socket.io server", "error", err.Error())
-	})
-
-	return server
+	return server, nil
 }
 
 func (h *Engine) NewBroadcastChannel(message string, enableCache bool) chan Message {
