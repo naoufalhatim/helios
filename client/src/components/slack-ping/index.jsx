@@ -60,9 +60,9 @@ class SlackPing extends React.Component {
         </span>
         <ReactCSSTransitionGroup transitionName="message-orbs" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           {
-            pings.map(function(t) {
+            pings.map(function(ping) {
               return (
-                <div key={ t.time } style={{background: t.color}}></div>
+                <div key={ ping.time } style={{background: ping.color}}></div>
               );
             })
           }
