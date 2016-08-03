@@ -39,7 +39,11 @@ func Service() helios.ServiceHandler {
 
 func connectSlackRTM(h *helios.Engine, s *SlackService) {
 	err := backoff.Retry(func() error {
+		h.Debug("Connecting to slack rtm")
 		err := runSlackRTM(h, s)
+		if err != nil {
+			h.Warn("Failed to start slack rtm. Retrying.", "error", err.Error())
+		}
 		return err
 	}, backoff.NewExponentialBackOff())
 	if err != nil {
@@ -49,9 +53,7 @@ func connectSlackRTM(h *helios.Engine, s *SlackService) {
 
 func runSlackRTM(h *helios.Engine, s *SlackService) error {
 	token := h.Config.GetString("slack.apiKey")
-
 	s.slackEvents = make(chan slack.SlackEvent)
-
 	api := slack.New(token)
 
 	rtm, err := api.StartRTM("", "http://localhost/")
@@ -59,9 +61,12 @@ func runSlackRTM(h *helios.Engine, s *SlackService) error {
 		return err
 	}
 
+	h.Debug("Connected to slack rtm")
+
 	// Cache all users for mention lookups
 	users, err := api.GetUsers()
 	if err != nil {
+		h.Warn("Failed to get users from slack api")
 		return err
 	}
 
@@ -73,6 +78,7 @@ func runSlackRTM(h *helios.Engine, s *SlackService) error {
 	// Cache all channels for lookups
 	channels, err := api.GetChannels(true)
 	if err != nil {
+		h.Warn("Failed to get channels from slack api")
 		return err
 	}
 
@@ -133,7 +139,6 @@ func messageHandler(api *slack.Slack, s *SlackService, h *helios.Engine) {
 						s.Commands <- helios.NewMessage(command)
 					}
 				}
-
 			}
 		}
 	}
