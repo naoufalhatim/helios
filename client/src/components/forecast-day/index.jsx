@@ -5,14 +5,14 @@ import Ticker from "../ticker";
 import Alert from "../alert";
 
 class ForecastDay extends React.Component {
-  dailyPrecipitation(data) {
-    if (data.precipType) {
+  forecastPrecipitation(forecast) {
+    if (forecast.precipType) {
       return (
         <span>
           /&nbsp;
           <Precipitation
-            precipType={data.precipType}
-            precipProbability={data.precipProbability} />
+            precipType={forecast.precipType}
+            precipProbability={forecast.precipProbability} />
         </span>
       );
     }
@@ -22,9 +22,9 @@ class ForecastDay extends React.Component {
     return (
       <Ticker>
         {
-          alerts.map((a, i)=>{
+          alerts.map((alert, i)=>{
             return (
-              <Alert key={i} title={a.title} expires={a.expires} />
+              <Alert key={i} title={alert.title} expires={alert.expires} />
             );
           })
         }
@@ -46,7 +46,7 @@ class ForecastDay extends React.Component {
           {title}
         </h2>
         <h1 className="label-primary">
-          <Temperature value={forecast.temperatureMax} /> / <Temperature value={forecast.temperatureMin} /> {this.dailyPrecipitation(forecast)}
+          <Temperature value={forecast.temperatureMax} /> / <Temperature value={forecast.temperatureMin} /> {this.forecastPrecipitation(forecast)}
         </h1>
         <div className="forecast-details">{forecast.summary}</div>
         {alerts && this.todayAlert(alerts)}
