@@ -1,21 +1,24 @@
 import React from 'react';
-import ForecastHour from './forecast_hour';
-import Precipitation from '../precipitation';
 import Skycons from 'react-skycons';
-import './forecast-hours.styl';
+import moment from 'moment';
+import './hourly-weather.styl';
 import _ from 'lodash';
 
-class ForecastHours extends React.Component {
+class HourlyWeather extends React.Component {
   render() {
-    const {hours, className} = this.props;
+    const {hours} = this.props;
 
     return (
-      <div className={className}>
+      <div className="hourly-forecast">
         {_.take(hours, 8).map((hour) => {
           return (
             <div className="hour" key={hour.time}>
-              <ForecastHour
-                hour={hour} />
+              <h3 className="label-secondary hour-details">
+                {moment.unix(hour.time).format('ha')}
+              </h3>
+              <h2 className="label-primary hour-title">
+                {Math.round(hour.temperature) + String.fromCharCode(176)}
+              </h2>
               <div className="forecast-skycon">
                 <Skycons
                   color="#fff"
@@ -23,9 +26,7 @@ class ForecastHours extends React.Component {
                   autoplay={true} />
               </div>
               <h3 className="label-secondary">
-                <Precipitation
-                  precipType={hour.precipType}
-                  precipProbability={hour.precipProbability} />
+                {(hour.precipPercent > 0) && `${hour.precipPercent}% ${hour.precipType}`}
               </h3>
             </div>
           );
@@ -35,9 +36,8 @@ class ForecastHours extends React.Component {
   }
 }
 
-ForecastHours.propTypes = {
-  className: React.PropTypes.string,
+HourlyWeather.propTypes = {
   hours: React.PropTypes.array
 };
 
-export default ForecastHours;
+export default HourlyWeather;
