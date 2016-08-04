@@ -1,25 +1,24 @@
-import io from "socket.io-client";
-import ServiceActions from "../actions/socket-service";
-import {EventEmitter} from "events";
+import io from 'socket.io-client';
+import ServiceActions from '../actions/socket-service';
+import {EventEmitter} from 'events';
 
-let CONNECTED_EVENT = "connected";
-let DISCONNECTED_EVENT = "disconnected";
+const CONNECTED_EVENT = 'connected';
+const DISCONNECTED_EVENT = 'disconnected';
 
 // Socket Service. Extend event emitter for broadcasting connect and disconnect events
 class SocketService extends EventEmitter {
-  connect(host) {
-    host = host || "";
-    this.socket = io(host, {path: "/socket/"});
+  connect(host = '') {
+    this.socket = io(host, {path: '/socket/'});
 
     // Setup socket events
-    this.socket.on("connect", () => {
+    this.socket.on('connect', () => {
       this.emit(CONNECTED_EVENT);
 
-      this.socket.on("event", (data) => {
+      this.socket.on('event', (data) => {
         ServiceActions.receiveEvent(data.type, data.data);
       });
 
-      this.socket.on("disconnect", () => {
+      this.socket.on('disconnect', () => {
         this.emit(DISCONNECTED_EVENT);
       });
     });

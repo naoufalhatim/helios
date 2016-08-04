@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class Temperature extends React.Component {
   render() {
@@ -12,8 +12,8 @@ class Temperature extends React.Component {
 }
 
 Temperature.propTypes = {
-  value: React.PropTypes.number.isRequired,
-  className: React.PropTypes.string
+  className: React.PropTypes.string,
+  value: React.PropTypes.number.isRequired
 };
 
 export default Temperature;

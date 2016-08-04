@@ -1,5 +1,5 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
 class DateStamp extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class DateStamp extends React.Component {
     this.setDate = this.setDate.bind(this);
 
     this.state = {
-      date: ""
+      date: ''
     };
   }
 
@@ -17,12 +17,12 @@ class DateStamp extends React.Component {
     this.setDateInterval = setInterval(this.setDate, 60000);
   }
 
-  setDate() {
-    this.setState({ day: moment().format("dddd"), date: moment().format("MMMM D, YYYY") });
-  }
-
   componentWillUnmount() {
     clearInterval(this.setDateInterval);
+  }
+
+  setDate() {
+    this.setState({day: moment().format('dddd'), date: moment().format('MMMM D, YYYY')});
   }
 
   render() {

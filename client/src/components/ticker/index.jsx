@@ -1,30 +1,35 @@
-import React from "react";
+import React from 'react';
 
-class Ticker extends React.Component{
-  constructor(props){
+class Ticker extends React.Component {
+  constructor(props) {
     super(props);
+    this.setTickerInterval = this.setTickerInterval.bind(this);
 
     this.state = {
       iteration: 0
     };
-  };
+  }
 
-  componentDidMount(){
-    const { timeOut } = this.props;
+  componentDidMount() {
+    this.setTickerInterval();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  setTickerInterval() {
+    const {timeOut} = this.props;
 
     this.interval = setInterval(() => {
       this.setState({
         iteration: this.state.iteration + 1
       });
     }, timeOut);
-  };
+  }
 
-  componentWillUnmount(){
-    clearInterval(this.interval);
-  };
-
-  render(){
-    const { children } = this.props;
+  render() {
+    const {children} = this.props;
 
     return (children[this.state.iteration % children.length]);
   }

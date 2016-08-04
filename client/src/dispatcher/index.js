@@ -1,32 +1,32 @@
-import {Dispatcher} from "flux";
+import {Dispatcher} from 'flux';
 
 
 class AppDispatcher extends Dispatcher {
 
   handleViewAction(action) {
     this.dispatch({
-      source: "VIEW_ACTION",
-      action: action
+      source: 'VIEW_ACTION',
+      action
     });
   }
 
   handleSocketAction(action) {
     this.dispatch({
-      source: "SOCKET_ACTION",
-      action: action
+      source: 'SOCKET_ACTION',
+      action
     });
   }
 
   handleApiAction(action) {
     this.dispatch({
-      source: "API_ACTION",
-      action: action
+      source: 'API_ACTION',
+      action
     });
   }
 
   registerIfType(type, cb) {
     this.register((payload) => {
-      var action = payload.action;
+      const action = payload.action;
       if (action.actionType === type) {
         cb(payload);
       }

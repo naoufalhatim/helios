@@ -1,5 +1,5 @@
-import React from "react";
-import SlackPing from "../slack-ping";
+import React from 'react';
+import SlackPing from '../slack-ping';
 
 class Activity extends React.Component {
   render() {

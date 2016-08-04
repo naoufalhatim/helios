@@ -1,8 +1,8 @@
-import AppDispatcher from "../dispatcher";
+import AppDispatcher from '../dispatcher';
 
-var ServiceActions = {
+const ServiceActions = {
 
-  receiveEvent: function(type, payload) {
+  receiveEvent(type, payload) {
     AppDispatcher.handleSocketAction({
       actionType: type,
       data: payload

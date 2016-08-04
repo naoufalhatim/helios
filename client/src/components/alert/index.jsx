@@ -1,10 +1,10 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
-class Alert extends React.Component{
+class Alert extends React.Component {
   render() {
-    const { expires, title } = this.props;
-    const time = moment.unix(expires).format("MMM DD ha");
+    const {expires, title} = this.props;
+    const time = moment.unix(expires).format('MMM DD ha');
 
     return (
       <div className="alert">
@@ -20,8 +20,8 @@ class Alert extends React.Component{
 }
 
 Alert.propTypes = {
-  title: React.PropTypes.string,
-  expires: React.PropTypes.number
+  expires: React.PropTypes.number,
+  title: React.PropTypes.string
 };
 
 export default Alert;
