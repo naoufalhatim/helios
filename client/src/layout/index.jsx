@@ -1,6 +1,7 @@
 import React from 'react';
 import CurrentWeather from '../plugins/current-weather';
 import ClockPlugin from '../plugins/clock';
+import Alert from '../plugins/alert';
 
 class Layout extends React.Component {
   constructor(props) {
