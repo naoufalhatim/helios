@@ -1,9 +1,9 @@
-import ClockPlugin from './clock';
-import CurrentWeatherPlugin from './current-weather';
-import RefreshPlugin from './refresh';
+const reqPlugin = require.context(
+  './', // Use current directory as base
+  true, // Scan recursively into directories
+  /\.\/.*\/index$/ // only load modules matching regex (folder indexes end in `/index` ie. ./clock/index)
+);
 
-export {
-  ClockPlugin,
-  CurrentWeatherPlugin,
-  RefreshPlugin
-};
+export default reqPlugin.keys().map((path) => {
+  return reqPlugin(path);
+});

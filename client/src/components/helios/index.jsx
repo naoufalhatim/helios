@@ -1,7 +1,6 @@
-import _ from 'lodash';
 import React from 'react';
 import $ from 'jquery';
-import * as plugins from '../../plugins';
+import plugins from '../../plugins';
 import AppDispatcher from '../../dispatcher';
 import Layout from '../../layout';
 
@@ -14,13 +13,12 @@ class Helios extends React.Component {
     this.receiveConfig = this.receiveConfig.bind(this);
 
     const viewPlugins = [];
-    const initializedPlugins = [];
-    _.forEach(plugins, (Plugin) => {
+    const initializedPlugins = plugins.map((Plugin) => {
       const p = new Plugin();
-      initializedPlugins.push(p);
       if (p.view()) {
         viewPlugins.push(p);
       }
+      return p;
     });
 
     this.state = {
