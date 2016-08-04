@@ -5,26 +5,26 @@ import Ticker from "../ticker";
 import Alert from "../alert";
 
 class ForecastDay extends React.Component {
-  dailyPrecipitation(data) {
-    if (data.precipType) {
+  forecastPrecipitation(forecast) {
+    if (forecast.precipType) {
       return (
         <span>
           /&nbsp;
           <Precipitation
-            precipType={data.precipType}
-            precipProbability={data.precipProbability} />
+            precipType={forecast.precipType}
+            precipProbability={forecast.precipProbability} />
         </span>
       );
     }
   }
 
-  todayAlert(alertData){
+  todayAlert(alerts){
     return (
       <Ticker>
         {
-          alertData.map((a, i)=>{
+          alerts.map((alert, i)=>{
             return (
-              <Alert key={i} title={a.title} expires={a.expires} />
+              <Alert key={i} title={alert.title} expires={alert.expires} />
             );
           })
         }
@@ -36,8 +36,8 @@ class ForecastDay extends React.Component {
     const {
       className,
       title,
-      dailyData,
-      alertData
+      forecast,
+      alerts
     } = this.props;
 
     return (
@@ -46,10 +46,10 @@ class ForecastDay extends React.Component {
           {title}
         </h2>
         <h1 className="label-primary">
-          <Temperature value={dailyData.temperatureMax} /> / <Temperature value={dailyData.temperatureMin} /> {this.dailyPrecipitation(dailyData)}
+          <Temperature value={forecast.temperatureMax} /> / <Temperature value={forecast.temperatureMin} /> {this.forecastPrecipitation(forecast)}
         </h1>
-        <div className="forecast-details">{dailyData.summary}</div>
-        {alertData && this.todayAlert(alertData)}
+        <div className="forecast-details">{forecast.summary}</div>
+        {alerts && this.todayAlert(alerts)}
       </div>
     );
   }
@@ -58,8 +58,8 @@ class ForecastDay extends React.Component {
 ForecastDay.propTypes = {
   className: React.PropTypes.string,
   title: React.PropTypes.string,
-  dailyData: React.PropTypes.object,
-  alertData: React.PropTypes.array
+  forecast: React.PropTypes.object,
+  alerts: React.PropTypes.array
 };
 
 

@@ -48,16 +48,21 @@ class SlackPing extends React.Component {
   }
 
   render() {
+    const {
+      channel,
+      pings
+    } = this.state;
+
     return (
       <slack-ping>
         <span className="channel-name">
-          {this.state.channel && this.state.pings.length > 0 ? "#" + this.state.channel : ""}
+          {channel && pings.length > 0 ? "#" + channel : ""}
         </span>
         <ReactCSSTransitionGroup transitionName="message-orbs" transitionEnterTimeout={500} transitionLeaveTimeout={300}>
           {
-            this.state.pings.map(function(t) {
+            pings.map(function(ping) {
               return (
-                <div key={ t.time } style={{background: t.color}}></div>
+                <div key={ ping.time } style={{background: ping.color}}></div>
               );
             })
           }

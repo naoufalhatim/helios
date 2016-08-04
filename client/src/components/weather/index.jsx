@@ -24,7 +24,7 @@ class Weather extends React.Component {
 
   receiveWeather(data) {
     this.setState({
-      data: data,
+      weather: data,
       updateMessage: "Weather updated: " + moment().format("h:mm:ss A")
     });
   }
@@ -34,19 +34,19 @@ class Weather extends React.Component {
   }
 
   render() {
-    const {data} = this.state;
+    const {weather} = this.state;
 
-    if (data) {
+    if (weather) {
       return (
         <div className="weather">
           <div className="weather-today">
             <div className="current-forecast">
-              <CurrentConditions data={data} />
-              <Temperature className='current-temp' value={data.currently.temperature} />
+              <CurrentConditions data={weather} />
+              <Temperature className='current-temp' value={weather.currently.temperature} />
             </div>
             <div className="hourly-forecast">
               <ForecastHours
-                hours={data.hourly.data}
+                hours={weather.hourly.data}
                 className="hourly-breakdown" />
             </div>
           </div>
@@ -54,16 +54,16 @@ class Weather extends React.Component {
             <ForecastDay
               className="forecast"
               title="Today"
-              dailyData={ this.state.data.daily.data[0] }
-              alertData={ this.state.data.alerts } />
+              forecast={ weather.daily.data[0] }
+              alerts={ weather.alerts } />
             <ForecastDay
               className="forecast"
               title={ moment().add(1, "days").format("dddd") }
-              dailyData={ this.state.data.daily.data[1] } />
+              forecast={ weather.daily.data[1] } />
             <ForecastDay
               className="forecast"
               title={ moment().add(2, "days").format("dddd") }
-              dailyData={ this.state.data.daily.data[2] } />
+              forecast={ weather.daily.data[2] } />
           </div>
         </div>
       );
