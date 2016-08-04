@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class CurrentConditions extends React.Component {
   render() {
@@ -13,5 +13,9 @@ class CurrentConditions extends React.Component {
     );
   }
 }
+
+CurrentConditions.propTypes = {
+  data: React.PropTypes.object
+};
 
 export default CurrentConditions;

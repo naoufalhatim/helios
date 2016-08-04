@@ -1,6 +1,6 @@
-import React from "react";
-import moment from "moment";
-import Temperature from "../temperature";
+import React from 'react';
+import moment from 'moment';
+import Temperature from '../temperature';
 
 class ForecastHour extends React.Component {
   render() {
@@ -8,7 +8,7 @@ class ForecastHour extends React.Component {
     return (
       <div className={className}>
         <h3 className="label-secondary hour-details">
-          {moment.unix(hour.time).format("ha")}
+          {moment.unix(hour.time).format('ha')}
         </h3>
         <h2 className="label-primary hour-title">
           <Temperature value={hour.temperature} />

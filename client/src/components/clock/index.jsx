@@ -1,6 +1,6 @@
-import React from "react";
-import moment from "moment";
-import "./clock.styl";
+import React from 'react';
+import moment from 'moment';
+import './clock.styl';
 
 class Clock extends React.Component {
   constructor(props) {
@@ -25,14 +25,14 @@ class Clock extends React.Component {
   }
 
   getCurrentHour() {
-    var currentHour = (this.props.hourOffset + moment().hours());
+    const currentHour = (this.props.hourOffset + moment().hours());
 
     return currentHour > 12 ? currentHour - 12 : currentHour;
   }
 
   setTime() {
-    var minutes = (moment().minutes() / 60);
-    var seconds = (moment().seconds() / 60);
+    const minutes = (moment().minutes() / 60);
+    const seconds = (moment().seconds() / 60);
 
     this.setState({
       secondHandRotation: this.state.secondHandRotation + 6,
@@ -53,7 +53,12 @@ class Clock extends React.Component {
     } = this.props;
 
     return (
-      <svg viewBox="0 0 300 300" x="0px" y="0px" width={width} height={height}>
+      <svg
+        viewBox="0 0 300 300"
+        x="0px"
+        y="0px"
+        width={width}
+        height={height}>
         <g>
           <g style={{fill: mainFaceMarksColor}}>
             <rect width="10" height="30" x="146.9" />
@@ -98,7 +103,7 @@ class Clock extends React.Component {
           </g>
 
           <rect
-            style={{WebkitTransform: "rotate(" + this.state.hourHandRotation + "deg)"}}
+            style={{WebkitTransform: `rotate(${this.state.hourHandRotation}deg)`}}
             className="clock-hand"
             x="146.9"
             y="70"
@@ -106,19 +111,36 @@ class Clock extends React.Component {
             width="10"
             height="83"/>
           <rect
-            style={{WebkitTransform: "rotate(" + this.state.minuteHandRotation + "deg)"}}
+            style={{WebkitTransform: `rotate(${this.state.minuteHandRotation}deg)`}}
             className="clock-hand"
             x="146.9"
             y="40"
             fill={minuteHandColor}
             width="10"
             height="113" />
-          <g className="clock-hand" style={{WebkitTransform: "rotate(" + this.state.secondHandRotation + "deg)"}}>
-            <rect x="146.9" y="40" fill={secondHandColor} width="10" height="113"/>
-            <circle fill="none" stroke={secondHandColor} strokeWidth="10" cx="152" cy="34" r="10" />
+          <g className="clock-hand" style={{WebkitTransform: `rotate(${this.state.secondHandRotation}deg)`}}>
+            <rect
+              x="146.9"
+              y="40"
+              fill={secondHandColor}
+              width="10"
+              height="113"/>
+            <circle
+              fill="none"
+              stroke={secondHandColor}
+              strokeWidth="10"
+              cx="152"
+              cy="34"
+              r="10" />
           </g>
           <g className="clock-center">
-            <circle fill={secondHandColor} width="10" height="10" cx="153" cy="153" r="10" />
+            <circle
+              fill={secondHandColor}
+              width="10"
+              height="10"
+              cx="153"
+              cy="153"
+              r="10" />
           </g>
         </g>
       </svg>
@@ -128,25 +150,25 @@ class Clock extends React.Component {
 
 
 Clock.propTypes = {
+  height: React.PropTypes.string,
+  hourHandColor: React.PropTypes.string,
   hourOffset: React.PropTypes.number,
   mainFaceMarksColor: React.PropTypes.string,
-  secondaryFaceMarksColor: React.PropTypes.string,
-  secondHandColor: React.PropTypes.string,
   minuteHandColor: React.PropTypes.string,
-  hourHandColor: React.PropTypes.string,
-  width: React.PropTypes.string,
-  height: React.PropTypes.string
+  secondHandColor: React.PropTypes.string,
+  secondaryFaceMarksColor: React.PropTypes.string,
+  width: React.PropTypes.string
 };
 
 Clock.defaultProps = {
+  height: '600',
+  hourHandColor: '#FFFFFF',
   hourOffset: 0,
-  mainFaceMarksColor: "#FFFFFF",
-  secondaryFaceMarksColor: "#FFFFFF",
-  secondHandColor: "#EF4136",
-  minuteHandColor: "#FFFFFF",
-  hourHandColor: "#FFFFFF",
-  width: "600",
-  height: "600"
+  mainFaceMarksColor: '#FFFFFF',
+  minuteHandColor: '#FFFFFF',
+  secondHandColor: '#EF4136',
+  secondaryFaceMarksColor: '#FFFFFF',
+  width: '600'
 };
 
 export default Clock;

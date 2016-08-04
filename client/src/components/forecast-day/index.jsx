@@ -1,8 +1,8 @@
-import React from "react";
-import Temperature from "../temperature";
-import Precipitation from "../precipitation";
-import Ticker from "../ticker";
-import Alert from "../alert";
+import React from 'react';
+import Temperature from '../temperature';
+import Precipitation from '../precipitation';
+import Ticker from '../ticker';
+import Alert from '../alert';
 
 class ForecastDay extends React.Component {
   forecastPrecipitation(forecast) {
@@ -18,11 +18,11 @@ class ForecastDay extends React.Component {
     }
   }
 
-  todayAlert(alerts){
+  todayAlert(alerts) {
     return (
       <Ticker>
         {
-          alerts.map((alert, i)=>{
+          alerts.map((alert, i) => {
             return (
               <Alert key={i} title={alert.title} expires={alert.expires} />
             );
@@ -46,7 +46,9 @@ class ForecastDay extends React.Component {
           {title}
         </h2>
         <h1 className="label-primary">
-          <Temperature value={forecast.temperatureMax} /> / <Temperature value={forecast.temperatureMin} /> {this.forecastPrecipitation(forecast)}
+          <Temperature value={forecast.temperatureMax} />
+          / <Temperature value={forecast.temperatureMin} />
+          {this.forecastPrecipitation(forecast)}
         </h1>
         <div className="forecast-details">{forecast.summary}</div>
         {alerts && this.todayAlert(alerts)}
@@ -56,10 +58,10 @@ class ForecastDay extends React.Component {
 }
 
 ForecastDay.propTypes = {
+  alerts: React.PropTypes.array,
   className: React.PropTypes.string,
-  title: React.PropTypes.string,
   forecast: React.PropTypes.object,
-  alerts: React.PropTypes.array
+  title: React.PropTypes.string
 };
 
 
