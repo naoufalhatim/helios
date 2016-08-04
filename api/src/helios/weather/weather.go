@@ -34,7 +34,7 @@ func initWeatherFetch(h *helios.Engine, w *WeatherService) {
 	for {
 		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey, lat, long))
 		if err != nil {
-			w.WeatherChan <- helios.NewError("Failed to fetch latest weather")
+			w.WeatherChan <- helios.NewError("Failed to fetch latest weather at %s,%s", lat, long)
 		} else {
 			w.WeatherChan <- helios.NewMessage(weather)
 		}

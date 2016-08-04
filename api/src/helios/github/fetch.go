@@ -41,7 +41,7 @@ func userRoutine(u User, g *GithubService) error {
 		events, resp, err := client.Activity.ListEventsPerformedByUser(u.Username, false, &opts)
 		if err != nil {
 			log.Warn("Problem retrieving events for user", "username", u.Username, "error", err.Error())
-			g.EventChan <- helios.NewError("Problem retrieving events")
+			g.EventChan <- helios.NewError("Problem retrieving events for user: %s. Error: %v", u.Username, err)
 		}
 
 		newEventTime := g.LastEvent.EventTime
