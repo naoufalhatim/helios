@@ -28,12 +28,23 @@ func New() *Engine {
 	// package instance of the helios type
 	engine := &Engine{
 		HTTPEngine: gin.Default(),
-		Socket:     initSocket(),
 		Logger:     log.New(),
 	}
 
 	fileHandler, _ := log.FileHandler("./error.log", log.LogfmtFormat())
 	engine.SetHandler(log.MultiHandler(log.LvlFilterHandler(log.LvlWarn, fileHandler), log.StreamHandler(os.Stdout, log.TerminalFormat())))
+
+	socket, err := initSocket()
+	if err != nil {
+		engine.Error("Failed to initialize socket server")
+	}
+
+	// Handle error cases
+	socket.On("error", func(so socketio.Socket, err error) {
+		engine.Error("Error on socket.io server", "error", err.Error())
+	})
+
+	engine.Socket = socket
 
 	return engine
 }
@@ -48,6 +59,7 @@ func (h *Engine) SetConfig(v *viper.Viper) {
 
 func (h *Engine) Run(port string) {
 	// Start services services
+	h.Info("Starting services", "count", len(h.services))
 	h.startServices()
 
 	//Socket.io Route
@@ -56,11 +68,13 @@ func (h *Engine) Run(port string) {
 	})
 
 	// Start engine now that all services have loaded
+	h.Info("Helios running", "port", port)
 	h.HTTPEngine.Run(":" + port)
 }
 
 func (h *Engine) startServices() {
 	for _, s := range h.services {
+		h.Debug("Starting service", "name", s.name)
 		s.handler(h)
 	}
 }

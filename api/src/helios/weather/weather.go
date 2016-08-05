@@ -3,11 +3,10 @@ package weather
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/pkg/errors"
 	"helios/helios"
 	"net/http"
 	"time"
-
-	log "gopkg.in/inconshreveable/log15.v2"
 )
 
 type WeatherService struct {
@@ -34,6 +33,7 @@ func initWeatherFetch(h *helios.Engine, w *WeatherService) {
 	for {
 		weather, err := getWeather(fmt.Sprintf(apiURL, apiKey, lat, long))
 		if err != nil {
+			h.Warn("Failed to fetch latest weather", "error", err.Error())
 			w.WeatherChan <- helios.NewError("Failed to fetch latest weather at %s,%s", lat, long)
 		} else {
 			w.WeatherChan <- helios.NewMessage(weather)
@@ -51,8 +51,7 @@ func getWeather(apiURL string) (interface{}, error) {
 
 	resp, err := http.Get(apiURL)
 	if err != nil {
-		log.Warn("Failed to fetch weather", "error", err.Error())
-		return nil, err
+		return nil, errors.Wrap(err, "Failed to fetch weather")
 	}
 	defer resp.Body.Close()
 
@@ -60,8 +59,7 @@ func getWeather(apiURL string) (interface{}, error) {
 
 	err = decoder.Decode(&weatherBody)
 	if err != nil {
-		log.Warn("Failed to parse weather body", "error", err.Error())
-		return nil, err
+		return nil, errors.Wrap(err, "Failed to parse weather body")
 	}
 
 	return weatherBody, nil

@@ -2,12 +2,12 @@ package github
 
 import (
 	"fmt"
+	"helios/helios"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/markbates/goth/gothic"
-	log "gopkg.in/inconshreveable/log15.v2"
 )
 
 func providerAuth(c *gin.Context) {
@@ -15,14 +15,14 @@ func providerAuth(c *gin.Context) {
 	gothic.BeginAuthHandler(c.Writer, c.Request)
 }
 
-func providerCallback(g *GithubService) gin.HandlerFunc {
+func providerCallback(h *helios.Engine, g *GithubService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var user User
 
 		// Run user auth using the gothic library
 		githubUser, err := gothic.CompleteUserAuth(c.Writer, c.Request)
 		if err != nil {
-			log.Warn("Failed to create user from callback", "error", err.Error())
+			h.Warn("Failed to create user from callback", "error", err.Error())
 		}
 
 		user.Username = githubUser.RawData["login"].(string)
@@ -35,14 +35,14 @@ func providerCallback(g *GithubService) gin.HandlerFunc {
 
 			_, err = userFile.WriteString(fmt.Sprintf("%s,%s\n", user.Username, user.AccessToken))
 			if err != nil {
-				log.Error("Failed to write new users to CSV", "error", err.Error())
+				h.Error("Failed to write new users to CSV", "error", err.Error())
 			}
 
 			g.Users[user.Username] = user
 			// startUser(user)
 
 		} else {
-			fmt.Println("User Already Exists")
+			h.Info("User already exists")
 		}
 
 		c.JSON(200, user)

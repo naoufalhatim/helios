@@ -9,7 +9,7 @@ import (
 
 	"github.com/markbates/goth"
 	githubProvider "github.com/markbates/goth/providers/github"
-	log "gopkg.in/inconshreveable/log15.v2"
+	"github.com/pkg/errors"
 )
 
 type GithubService struct {
@@ -24,16 +24,15 @@ func loadUsersCSV(g *GithubService) error {
 	// Open and parse existing users from the uat file
 	usersFile, err := os.OpenFile("users.csv", os.O_RDWR|os.O_CREATE, 0664)
 	if err != nil {
-		log.Error("Failed to open users file", "error", err.Error())
-		return err
+		return errors.Wrap(err, "Failed to open users file")
 	}
+
 	defer usersFile.Close()
 
 	csvReader := csv.NewReader(usersFile)
 	rawCSV, err := csvReader.ReadAll()
 	if err != nil {
-		log.Error("Failed to read CSV file", "error", err.Error())
-		return err
+		return errors.Wrap(err, "Failed to read CSV file")
 	}
 
 	for _, row := range rawCSV {
@@ -62,16 +61,17 @@ func Service() helios.ServiceHandler {
 		)
 
 		// Setup github auth routes
-		h.HTTPEngine.GET("/auth/github/callback", providerCallback(g))
+		h.HTTPEngine.GET("/auth/github/callback", providerCallback(h, g))
 		h.HTTPEngine.GET("/auth/github", providerAuth)
 
 		// Load registered users
 		err := loadUsersCSV(g)
 		if err != nil {
-			h.Error("Failed to load users from csv", "error", err)
+			h.Error("Failed to load users from csv", "error", err.Error())
 		}
 
 		// Start Existing Users
+		h.Debug("Starting existing github user go routines")
 		startExistingUsers(g)
 	}
 }
