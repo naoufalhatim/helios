@@ -1,0 +1,181 @@
+exports[`HourlyWeather Component renders 1`] = `
+<div
+  className="hourly-forecast">
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      1am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      2am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      3am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      4am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      5am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      6am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      7am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+  <div
+    className="hour">
+    <h3
+      className="label-secondary hour-details">
+      8am
+    </h3>
+    <h2
+      className="label-primary hour-title">
+      70°
+    </h2>
+    <div
+      className="forecast-skycon">
+      <Skycons
+        autoplay={true}
+        color="#fff"
+        icon="PARTLY_CLOUDY" />
+    </div>
+    <h3
+      className="label-secondary">
+      20% rain
+    </h3>
+  </div>
+</div>
+`;
