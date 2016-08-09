@@ -5,5 +5,5 @@ const reqPlugin = require.context(
 );
 
 export default reqPlugin.keys().map((path) => {
-  return reqPlugin(path);
+  return reqPlugin(path).default;
 });
