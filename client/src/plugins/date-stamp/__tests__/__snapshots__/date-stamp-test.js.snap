@@ -1,0 +1,16 @@
+exports[`DateStampComponent renders 1`] = `
+<div
+  className="date-stamp">
+  <div
+    className="label-primary">
+    <span
+      className="day">
+      Friday
+    </span>
+    <span
+      className="date-details">
+      August 12, 2016
+    </span>
+  </div>
+</div>
+`;
