@@ -1,0 +1,28 @@
+exports[`SlackPing Component renders 1`] = `
+<slack-ping>
+  <span
+    className="channel-name">
+    ##general
+  </span>
+  <span>
+    <div
+      style={
+        Object {
+          "background": "rgba(49, 163, 142, 1)"
+        }
+      } />
+    <div
+      style={
+        Object {
+          "background": "rgba(237, 180, 49, 1)"
+        }
+      } />
+    <div
+      style={
+        Object {
+          "background": "rgba(227, 21, 99, 1)"
+        }
+      } />
+  </span>
+</slack-ping>
+`;
